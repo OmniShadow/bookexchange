@@ -4,6 +4,8 @@ require __DIR__ . "/inc/bootstrap.php";
 require PROJECT_ROOT_PATH . "/Controller/Api/UserController.php";
 require PROJECT_ROOT_PATH . "/Controller/Api/BookController.php";
 
+session_start();
+
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = explode('/', $uri);
 
