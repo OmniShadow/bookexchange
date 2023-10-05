@@ -1,0 +1,91 @@
+<div class="col">
+    <section style="background-color: #eee;">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card mb-4">
+                        <div class="card-body text-center">
+                            <img src={avatar} alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+                            <h5 class="my-3">{username}</h5>
+                            <div class="d-flex justify-content-center mb-2">
+                                <button type="button" class="btn btn-outline-primary ms-1" onclick="
+                                    loggedUser = {loggedUser};
+                                    userId = {userId};
+                                    formData = new FormData();
+                                    if(loggedUser == userId)
+                                        return;
+                                    formData.append(
+                                        'userId',userId
+                                    );
+                                    fetch('http://localhost:8080/bookexchange/api.php/message/startconv',{
+                                        method:'POST',
+                                        body: formData,
+                                    })
+                                    .then(response => response.json())
+                                    .then(postResponse =>{
+                                        if(postResponse.status)
+                                            location.href = 'http://localhost:8080/bookexchange/api.php/user/'+loggedUser+'/profile/messages/'+postResponse.conversazione;
+                                        else
+                                        location.href = 'http://localhost:8080/bookexchange/login.php';
+                                    });
+                                    ">Message</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-8">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Username</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">{username}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Email</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">{email}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="card mb-4 mb-lg-0">
+                                <div class="card-body p-0">
+                                    <ul class="list-group list-group-flush rounded-3">
+                                        <li
+                                            class="list-group-item d-flex justify-content-center align-items-center p-3">
+                                            <i class="fas fa-globe fa-lg text-warning"></i>
+                                            <p class="mb-0">Alcuni dei miei libri</p>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-start align-items-center p-3">
+                                            <i class="fab fa-github fa-lg" style="color: #1f1e1e;"></i>
+                                            <p class="mb-0">{book1}</p>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-start align-items-center p-3">
+                                            <i class="fab fa-github fa-lg" style="color: #333333;"></i>
+                                            <p class="mb-0">{book2}</p>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-start align-items-center p-3">
+                                            <i class="fab fa-github fa-lg" style="color: #333333;"></i>
+                                            <p class="mb-0">{book3}</p>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

@@ -1,0 +1,16 @@
+<button class="btn btn-outline-warning" onclick="
+    scambioId = {scambioId};
+    stato = 'cancelled'
+    let formData = new FormData();
+  formData.append('scambioId', scambioId);
+  formData.append('stato', stato);
+
+    fetch('http://localhost:8080/bookexchange/api.php/exchange/' + scambioId + '/updateStatus',{
+        method: 'POST',
+        body:formData,
+    }).then(response => response.json())
+    .then(postResponse =>{
+        console.log(postResponse);
+        location.reload();
+    });
+">Annulla</button>

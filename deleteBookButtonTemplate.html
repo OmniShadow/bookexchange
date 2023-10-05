@@ -1,0 +1,24 @@
+
+
+<button id="delete-button" class="btn btn-outline-danger" onclick="
+idUtente = {userId};
+descrizione = '{descrizione}';
+let formData = new FormData();
+formData.append('userId', idUtente);
+formData.append('description', descrizione);
+if(confirm('Vuoi eliminare questo libro?'))
+fetch('http://localhost:8080/bookexchange/api.php/book/{id}/delete',{
+    method: 'POST',
+    body:formData,
+}).then(response => response.json())
+.then(postResponse =>{
+    console.log(postResponse);
+    if(postResponse.stato)
+        alert('Libro eliminato');
+    location.reload();
+});
+else{
+    
+}
+
+">Elimina</button>

@@ -1,0 +1,98 @@
+<div id="exchange-template" class="container-lg bg-body-secondary my-1 rounded-5 border border-dark-subtle border-3">
+    <div class="row text-center">
+        <p>{stato}</p>
+    </div>
+    <div class="row">
+        <div class="col border border-dark-subtle rounded-start-5">
+            <div class="row px-2 pt-4">
+                <div class="">
+                    <div class="d-flex align-items-center text-black text-decoration-none">
+                        <img src="{avatarProponente}" width="64" height="64" class="rounded-circle">
+                        <span class="d-none d-sm-inline mx-1">
+                            {proponente}
+                        </span>
+                        <span id="user-id" class="d-none d-sm-inline mx-1 text-secondary">
+                            {proponenteId}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row px-2 pb-2">
+                <li id="user-book-template" class="media list-group-item rounded-5">
+                    <div class="d-flex">
+                        <div>
+                            <img id="copertina" src="{libroPropostoCopertina}" class="flex-shrink-0" src="" width="50"
+                                height="62" alt="Generic placeholder image">
+                        </div>
+                        <div id="body" class="flex-grow-1 ms-3">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Titolo</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <h5 id="titolo" class="mt-0 mb-1">
+                                        {libroPropostoTitolo}
+                                    </h5>
+
+                                </div>
+                            </div>
+                        </div>
+                </li>
+            </div>
+
+        </div>
+        <div class="col border border-dark rounded-end-5">
+            <div class="row px-2 pt-4">
+                <div class="">
+                    <div class="d-flex align-items-center text-black text-decoration-none">
+                        <img src="{avatarOfferente}" width="64" height="64" class="rounded-circle">
+                        <span class="d-none d-sm-inline mx-1">
+                            {offerente}
+                        </span>
+                        <span id="offerente-id" class="d-none d-sm-inline mx-1 text-secondary">
+                            {offerenteId}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row px-2">
+                <li id="book-template" class="media list-group-item rounded-5">
+                    <div class="d-flex">
+                        <div>
+                            <img id="img" class="flex-shrink-0" src="{libroOffertoCopertina}" width="50" height="62"
+                                alt="Generic placeholder image">
+                        </div>
+
+                        <div id="body" class="flex-grow-1 ms-3">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Titolo</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <h5 id="title" class="mt-0 mb-1">
+                                        {libroOffertoTitolo}
+                                    </h5>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                </li>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container-sm w-25">
+            <div class="row row-cols2 align-content-center">
+                <div class="col align-content-center">
+                    {button1}
+                </div>
+                <div class="col">
+                    {button2}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

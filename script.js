@@ -1,17 +1,203 @@
+document
+  .getElementById("confirm-search-input")
+  .addEventListener("click", searchBooks);
+document
+  .getElementById("book-search-bar")
+  .addEventListener("keydown", checkEnter);
 
+document.getElementById("manual-input").addEventListener("click", (e) => {
+  placeBookForm(null);
+});
 
-document.getElementById("confirm-search-input").addEventListener("click", testAPI);
+document.getElementById("add-author-field").addEventListener("click", () => {
+  addAuthorField();
+});
+document.getElementById("add-categorie-field").addEventListener("click", () => {
+  addCategoriaField();
+});
 
-function testAPI() {
+document
+  .getElementById("book-input-form")
+  .addEventListener("submit", function (event) {});
 
-    fetch('api.php/book/1', {
-        method: "POST",
-        body: JSON.stringify({
-            userId: 1,
-            description: 'la mia descrizione',
-        }),
-    }).then((response) => response.json()).then(responseData => {
-        console.log(responseData.status);
+function sendBook() {}
+
+function checkEnter(event) {
+  if (event.keyCode == 13) searchBooks();
+  return;
+}
+
+function addAuthorField(value) {
+  var authorsRow = document.getElementById("authors-row");
+  var authorFieldTemplate = document
+    .getElementById("author-field-template")
+    .cloneNode(true);
+  authorFieldTemplate.removeAttribute("hidden");
+  authorFieldTemplate.removeAttribute("id");
+  if (value) {
+    authorFieldTemplate.querySelector("#autore").setAttribute("value", value);
+  }
+
+  authorsRow.appendChild(authorFieldTemplate);
+}
+
+function addCategoriaField(value) {
+  var authorsRow = document.getElementById("categories-row");
+  var categorieFieldTemplate = document
+    .getElementById("categorie-field-template")
+    .cloneNode(true);
+  categorieFieldTemplate.removeAttribute("hidden");
+  categorieFieldTemplate.removeAttribute("id");
+  if (value) {
+    categorieFieldTemplate
+      .querySelector("#categoria")
+      .setAttribute("value", value);
+  }
+
+  authorsRow.appendChild(categorieFieldTemplate);
+}
+
+function placeBookForm(bookData) {
+  document
+    .getElementById("book-input-form")
+    .addEventListener("submit", (event) => {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    });
+  var main = document.getElementById("main");
+  var form = document.getElementById("book-form-template");
+  form
+    .querySelector("#userId")
+    .setAttribute(
+      "value",
+      window.location.href.split(window.location.host)[1].split("/")[4]
+    );
+  form
+    .querySelector("#copertina-url")
+    .setAttribute(
+      "value",
+      "/bookexchange/imgs/bookcovers/default-book-cover.jpg"
+    );
+  if (bookData) {
+    form
+      .querySelector("#copertina-url")
+      .setAttribute("value", bookData.copertina);
+
+    form.querySelector("#titolo").setAttribute("value", bookData.titolo);
+    form.querySelector("#id").setAttribute("value", bookData.id);
+    form.querySelector("#editore").setAttribute("value", bookData.editore);
+    form.querySelector("#anno").setAttribute("value", bookData.anno);
+    form.querySelector("#lingua").setAttribute("value", bookData.lingua);
+
+    bookData.autori.forEach((autore) => {
+      addAuthorField(autore);
     });
 
+    bookData.categorie.forEach((categoria) => {
+      addCategoriaField(categoria);
+    });
+  }
+  form.removeAttribute("hidden");
+  main.innerHTML = "";
+  main.appendChild(form);
+  var form = document.getElementById("book-input-form");
+
+  form.addEventListener("submit", function (event) {
+    if (!form.checkValidity()) {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+
+      form.classList.add("was-validated");
+    }
+  });
+}
+
+function searchBooks() {
+  query = document.getElementById("book-search-bar").value;
+  if (!query) {
+    console.log("empty query");
+    return;
+  }
+  //limit = document.getElementById("limit-selector").value;
+  limit = 10;
+  fetch(
+    "http://localhost:8080/bookexchange/api.php/book/list?q=" +
+      '"' +
+      query +
+      '"' +
+      "&limit=" +
+      limit,
+    {
+      method: "GET",
+    }
+  )
+    .then((response) => response.json())
+    .then((books) => {
+      if (books.error) {
+        //error
+        return;
+      }
+      bookList = document.getElementById("book-search-results");
+      bookList.innerHTML = "";
+      document
+        .getElementById("book-template")
+        .querySelector("#title").innerText = "testo cambiato";
+      books.forEach((book) => {
+        bookElement = document.getElementById("book-template").cloneNode(true);
+        bookElement.setAttribute("id", book.id);
+        bookElement
+          .querySelector("#img")
+          .setAttribute(
+            "src",
+            Object.hasOwn(book.volumeInfo, "imageLinks")
+              ? book.volumeInfo.imageLinks.thumbnail
+              : "default-book-cover.jpg"
+          );
+
+        bookElement.querySelector("#title").innerText = book.volumeInfo.title;
+        bookElement.querySelector("#autori").innerText =
+          book.volumeInfo.authors;
+        bookElement.querySelector("#categorie").innerText = Object.hasOwn(
+          book.volumeInfo,
+          "categories"
+        )
+          ? book.volumeInfo.categories
+          : "";
+        bookElement.querySelector("#editore").innerText =
+          book.volumeInfo.publisher;
+        bookElement.querySelector("#anno").innerText =
+          book.volumeInfo.publishedDate;
+        bookElement.querySelector("#lingua").innerText =
+          book.volumeInfo.language;
+
+        bookElement.removeAttribute("hidden");
+
+        var bookData = {
+          id: book.id,
+          titolo: book.volumeInfo.title,
+          editore: book.volumeInfo.publisher,
+          copertina: Object.hasOwn(book.volumeInfo, "imageLinks")
+            ? book.volumeInfo.imageLinks.thumbnail
+            : "/bookexchange/imgs/bookcovers/default-book-cover.jpg",
+          anno: book.volumeInfo.publishedDate,
+          lingua: book.volumeInfo.language,
+          autori: Object.hasOwn(book.volumeInfo, "authors")
+            ? book.volumeInfo.authors
+            : [],
+          categorie: Object.hasOwn(book.volumeInfo, "categories")
+            ? book.volumeInfo.categories
+            : [],
+        };
+
+        bookElement.addEventListener("click", (e) => {
+          placeBookForm(bookData);
+        });
+
+        bookList.appendChild(bookElement);
+      });
+    });
 }

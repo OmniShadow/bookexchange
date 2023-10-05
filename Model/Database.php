@@ -26,7 +26,7 @@ class Database
         }
     }
 
-    public function select($query = "", $params = [])
+    protected function select($query = "", $params = [])
     {
         try {
 
@@ -40,7 +40,7 @@ class Database
         }
     }
 
-    public function createUpdateDelete($query = "", $params = [])
+    protected function createUpdateDelete($query = "", $params = [])
     {
         try {
             $success = $this->executeStatement($query, $params);

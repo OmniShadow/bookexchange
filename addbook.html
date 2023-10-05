@@ -1,0 +1,250 @@
+<main id="main" class=" col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+    <div class="container">
+        <h3>Che libro vuoi aggiungere?</h3>
+        <div class="row">
+            <div class="input-group mb-3">
+                <input id="book-search-bar" class="form-control mr-sm-2" type="search" placeholder="Search"
+                    aria-label="Search">
+                <div class="input-group-append">
+                    <button id="confirm-search-input" class="btn btn-outline-secondary " type="button">Search</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <button id="manual-input" class="btn btn-outline-secondary mb-3" type="button">Inserisi manualmente</button>
+        </div>
+
+        <div class="row">
+            <ul id="book-search-results" class="list-unstyled list-group"></ul>
+        </div>
+    </div>
+
+
+</main>
+
+
+
+<li id="book-template" class="media list-group-item list-group-item-action" hidden>
+    <div class="d-flex">
+        <div>
+            <img id="img" class="flex-shrink-0" src="/bookexchange/imgs/bookcovers/default-book-cover.jpg"
+                alt="Generic placeholder image">
+        </div>
+
+        <div id="body" class="flex-grow-1 ms-3">
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <p class="mb-0">Titolo</p>
+                </div>
+                <div class="col-sm-9">
+                    <h5 id="title" class="mt-0 mb-1"></h5>
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <p class="mb-0">ID</p>
+                </div>
+                <div class="col-sm-9">
+                    <p id="id" class="text-muted mb-0">
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <p class="mb-0">Categorie</p>
+                </div>
+                <div class="col-sm-9">
+                    <p id="categorie" class="text-muted mb-0">
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <p class="mb-0">Autori</p>
+                </div>
+                <div class="col-sm-9">
+                    <p id="autori" class="text-muted mb-0">
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <p class="mb-0">Editore</p>
+                </div>
+                <div class="col-sm-9">
+                    <p id="editore" class="text-muted mb-0">
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <p class="mb-0">Anno pubblicazione</p>
+                </div>
+                <div class="col-sm-9">
+                    <p id="anno" class="text-muted mb-0">
+                    </p>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-3">
+                    <p class="mb-0">Lingua</p>
+                </div>
+                <div class="col-sm-9">
+                    <p id="lingua" class="text-muted mb-0">
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</li>
+
+<div id="book-form-template" class="container py-2 h-100" hidden>
+    <div class="row justify-content-center align-items-center h-100">
+        <div class="col-12 col-lg-9 col-xl-7">
+            <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                <div class="card-body p-4 ">
+                    <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Inserisci libro</h3>
+                    <form id="book-input-form" enctype="multipart/form-data" novalidate method="POST"
+                        action="/bookexchange/api.php/book/add">
+                        <div class="row" hidden>
+                            <div class="col">
+                                <div class="form-outline">
+                                    <input id="userId" name="userId" type="text" class="form-control form-control-lg"
+                                        value="" />
+                                    <input id="copertina-url" name="copertina-url" type="text"
+                                        class="form-control form-control-lg" value="" />
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-outline">
+                                    <input id="copertina" name="copertina" type="file" accept="image/png, image/jpeg"
+                                        class="form-control form-control-lg" placeholder="default-book-cover.jpg"
+                                        value="/bookexchange/imgs/bookcovers/default-book-cover.jpg" />
+                                    <label class="form-label">Copertina</label>
+                                    <div class="invalid-feedback">Inserisci un'immagine di copertina
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-outline">
+                                    <input id="titolo" name="titolo" type="text" class="form-control form-control-lg"
+                                        required placeholder="Titolo" />
+                                    <label class="form-label">Titolo</label>
+                                    <div class="invalid-feedback">Inserisci un titolo</div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4 d-flex align-items-center">
+                                <div class="form-outline datepicker w-100">
+                                    <input id="id" name="id" type="text" class="form-control form-control-lg" required
+                                        placeholder="ID libro" />
+                                    <label class="form-label">ID</label>
+                                    <div class="invalid-feedback">Inserisci un ID valido</div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6 mb-4 d-flex align-items-center">
+                                <div class="form-outline datepicker w-100">
+                                    <input id="editore" name="editore" type="text" class="form-control form-control-lg"
+                                        required placeholder="Editore" />
+                                    <label class="form-label">Editore</label>
+                                    <div class="invalid-feedback">Inserisci un editore</div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-4 pb-2">
+                                <div class="form-outline">
+                                    <input id="anno" name="anno" type="text" class="form-control form-control-lg"
+                                        required placeholder="13-05-1999" />
+                                    <label class="form-label">Anno pubblicazione</label>
+                                    <div class="invalid-feedback">Inserisci una data o un anno di pubblicazione</div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6 mb-4 pb-2">
+                                <div class="form-outline">
+                                    <input id="lingua" name="lingua" type="text" class="form-control form-control-lg"
+                                        required placeholder="Lingua" />
+                                    <label class="form-label">Lingua</label>
+                                    <div class="invalid-feedback">Inserisci una lingua</div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <label class="form-label">Categorie</label>
+                        <div id="categories-row" class="row">
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 pb-2">
+                                <div class="form-outline">
+                                    <button id="add-categorie-field" type="button" class="btn btn-outline-secondary">
+                                        +</button>
+                                </div>
+                            </div>
+                        </div>
+                        <label class="form-label">Autori</label>
+                        <div id="authors-row" class="row">
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 pb-2">
+                                <div class="form-outline">
+                                    <button id="add-author-field" type="button" class="btn btn-outline-secondary">
+                                        +</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-outline">
+                                    <textarea id="descrizione" name="descrizione" class="form-control form-control-lg"
+                                        placeholder="Descrizione libro" value=""></textarea>
+                                    <label class="form-label">Descrizione</label>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-2">
+                            <button id="submit-book" class="btn btn-primary btn-lg" type="submit">
+                                Conferma
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="author-field-template" class="col-md-6 pb-2" hidden>
+    <div class="form-outline">
+        <input id="autore" name="autore[]" type="text" class="form-control form-control-lg" required
+            placeholder="Nome e cognome" />
+        <div class="invalid-feedback">Inserisci un autore</div>
+    </div>
+</div>
+<div id="categorie-field-template" class="col-md-6 mb-4 pb-2" hidden>
+    <div class="form-outline">
+        <input id="categoria" name="categoria[]" type="text" class="form-control form-control-lg"
+            placeholder="Cateogoria libro" value="" />
+    </div>
+</div>
+<script src="/bookexchange/addbookscript.js"></script>

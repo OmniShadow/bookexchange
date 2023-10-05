@@ -1,0 +1,27 @@
+<button class="btn btn-success" onclick="
+    scambioId = {scambioId};
+    stato = 'accepted'
+    let formData = new FormData();
+  formData.append('scambioId', scambioId);
+  formData.append('stato', stato);
+
+    fetch('http://localhost:8080/bookexchange/api.php/exchange/' + scambioId + '/updateStatus',{
+        method: 'POST',
+        body:formData,
+    }).then(response => response.json())
+    .then(postResponse =>{
+        //fai lo scambio
+
+        formData = new FormData();
+        fetch('http://localhost:8080/bookexchange/api.php/exchange/' + scambioId + '/commit',{
+        method: 'POST',
+        body:formData,
+    }).then(response => response.json())
+    .then(postResponse =>{
+            console.log(postResponse);
+            alert('Scambio effettuato');
+        
+        //location.reload();
+    });
+    });
+">Accetta</button>
