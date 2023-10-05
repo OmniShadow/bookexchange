@@ -100,7 +100,7 @@ session_start();
       <main class=" col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
         <h3>Cerca tra i libri disponibili</h3>
         <div class="input-group mb-3">
-          <input id="book-search-bar" class="form-control mr-sm-2" type="search" placeholder="Search"
+          <input id="book-search-bar" class="form-control mr-sm-2" type="search" placeholder="Ricerca per titolo, autore o categoria"
             aria-label="Search">
           <div class="input-group-append">
             <button id="confirm-search-input" class="btn btn-outline-secondary " type="button">Search</button>
@@ -119,7 +119,7 @@ session_start();
 <li id="book-template" hidden class="media list-group-item list-group-item-action">
   <div class="d-flex">
     <div>
-      <img id="img" class="flex-shrink-0" src="{copertina}" width="200" height="248" alt="Generic placeholder image">
+      <img id="img" class="flex-shrink-0" src="" width="200" height="248" alt="Generic placeholder image">
     </div>
 
     <div id="body" class="flex-grow-1 ms-3">
@@ -181,12 +181,10 @@ session_start();
       </div>
       <hr>
       <div class="row">
-        <div class="col-1">
+        <div class="col">
           <button id="scambio" class="btn btn-primary">Scambia</button>
         </div>
-        <div class="col-1">
-          <button id="messaggio" class="btn btn-secondary">Messaggia</button>
-        </div>
+
       </div>
     </div>
   </div>

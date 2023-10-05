@@ -78,10 +78,15 @@ class BookModel extends Database
         
     }
 
-    public function getOwnedBooks($titolo, $limit)
+    public function getOwnedBooks($q, $limit)
     {
-        $query = "SELECT * FROM libro INNER JOIN possesso ON possesso.libro = libro.id INNER JOIN utente ON possesso.proprietario = utente.id WHERE (titolo LIKE ?) LIMIT ?";
-        $params = ["%$titolo%",$limit];
+        $query = "SELECT * FROM libro 
+        INNER JOIN possesso ON possesso.libro = libro.id 
+        INNER JOIN utente ON possesso.proprietario = utente.id
+        INNER JOIN scrittura ON scrittura.libro = libro.id
+        INNER JOIN categoria ON categoria.libro = libro.id
+        WHERE (titolo LIKE ? OR scrittura.autore LIKE ? OR categoria.categoria LIKE ?) GROUP BY libro.id LIMIT ?";
+        $params = ["%$q%","%$q%","%$q%",$limit];
         return $this->select($query, $params);
     }
 

@@ -11,13 +11,11 @@ function checkEnter(event) {
 }
 
 function searchBooks() {
-  console.log("search");
   query = document.getElementById("book-search-bar").value;
   if (!query) {
-    console.log("empty query");
     return;
   }
-  //limit = document.getElementById("limit-selector").value;
+
   limit = 10;
   fetch("http://localhost:8080/bookexchange/api.php/book/search?q=" + query, {
     method: "GET",
@@ -25,7 +23,6 @@ function searchBooks() {
     .then((response) => response.json())
     .then((books) => {
       if (books.error) {
-        //error
         return;
       }
       bookList = document.getElementById("book-search-results");
@@ -57,9 +54,6 @@ function searchBooks() {
 
         bookElement.removeAttribute("hidden");
 
-        // bookElement.addEventListener("click", (e) => {
-        //   placeBookForm(bookData);
-        // });
 
         bookList.appendChild(bookElement);
       });
