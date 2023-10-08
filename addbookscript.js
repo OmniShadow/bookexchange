@@ -180,7 +180,7 @@ function searchBooks() {
             "src",
             Object.hasOwn(book.volumeInfo, "imageLinks")
               ? book.volumeInfo.imageLinks.thumbnail
-              : "default-book-cover.jpg"
+              : "/bookexchange/imgs/bookcovers/default-book-cover.jpg"
           );
 
         bookElement.querySelector("#title").innerText = book.volumeInfo.title;
