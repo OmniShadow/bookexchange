@@ -12,101 +12,99 @@ session_start();
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BookExchange</title>
   <link rel="icon" href="imgs/icon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
 </head>
 
-<body class="bg-body-tertiary ">
-  <header>
-    <nav class="navbar navbar-expand-sm p-3 bg-primary-subtle">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="home.php">
-          <div class="container">
-            <div class="row">
-              <div class="col-sm">
-                <img class="img-thumbnail" src="imgs/icon.png" alt="" width="50" height="50">
-              </div>
-              <div class="col-sm">
-                <h2>
-                  BookExchange
-                </h2>
-              </div>
-            </div>
+<body class="bg-dark-subtle ">
+  <header
+    class="bg-secondary d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+    <a href="/bookexchange/home.php"
+      class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+      <div class="container">
+        <div class="row row-cols-2">
+          <div class="col-auto">
+            <img class="bi me-2" src="imgs/icon.png" width="40" height="40" role="img" aria-label="Bootstrap">
+            </img>
           </div>
-        </a>
-        <span>
-          <div class="collpase navbar-collapse">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link" href=<?php
-
-                if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"]) {
-                  $userId = $_SESSION["user"]["id"];
-                  echo ("api.php/user/$userId/profile");
-                } else
-                  echo ("login.php");
-                ?>>
-                  <h5>
-                    <?php
-                    if (isset($_SESSION["loggedin"]))
-                      echo ("Profile");
-                    else
-                      echo ("Login");
-                    ?>
-                  </h5>
-                </a>
-              </li>
-              <li class="nav-item">
-                <?php
-                if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"]) {
-                  echo ('<a class="nav-link" href="logout.php">
-                  <h5>
-                    Logout
-                  </h5>
-                </a>');
-
-                } else {
-                  echo ('<a class="nav-link" href="register.php">
-                <h5>
-                  Register
-                </h5>
-              </a>');
-                }
-                ?>
-
-              </li>
-            </ul>
+          <div class="col-sm d-flex align-items-start">
+            <h3>
+              BookExchange
+            </h3>
           </div>
-        </span>
+        </div>
       </div>
-    </nav>
+
+    </a>
+
+    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+      <li><a href="/bookexchange/home.php" class="nav-link px-2 link-dark">Home</a></li>
+      <li><a href="docs.html" class="nav-link px-2 link-dark">Docs</a></li>
+    </ul>
+
+    <div class="col-md-3 text-end pe-5 pe-lg-5">
+      <a type="button" class="btn <?php
+      if (isset($_SESSION["loggedin"]))
+        echo ("btn-light");
+      else
+        echo ("btn-outline-light ");
+      ?> me-2" href=<?php
+
+       if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"]) {
+         $userId = $_SESSION["user"]["id"];
+         echo ("api.php/user/$userId/profile");
+       } else
+         echo ("login.php");
+       ?>>
+        <?php
+        if (isset($_SESSION["loggedin"]))
+          echo ('<i class="bi-person-circle"></i> Profile');
+        else
+          echo ("Login");
+        ?>
+
+      </a>
+      <a type="button" class="btn <?php
+      if (isset($_SESSION["loggedin"]))
+        echo ("btn-outline-danger ");
+      else
+        echo ("btn-dark");
+      ?> " href=<?php
+       if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"]) {
+         echo ('"logout.php"');
+       } else {
+         echo ('"register.php"');
+       }
+       ?>>
+        <?php
+        if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"]) {
+          echo ("Logout");
+        } else {
+          echo ("Sign Up");
+        }
+        ?>
+      </a>
+    </div>
   </header>
 
-
-
-  <div class="container-fluid">
+  <div class="container-fluid overflow-y-scroll" style="max-height: 800px;">
     <div class="row">
-      <nav class="col-md-2 d-md-block bg-light navbar">
-        <ul class="nav flex-column">
-          <li class="nav-item border">
-            <a class="nav-link" href="#">
-              HOME
-            </a>
-          </li>
-        </ul>
 
-      </nav>
       <main class=" col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
         <h3>Cerca tra i libri disponibili</h3>
         <div class="input-group mb-3">
-          <input id="book-search-bar" class="form-control mr-sm-2" type="search" placeholder="Ricerca per titolo, autore o categoria"
-            aria-label="Search">
+          <input id="book-search-bar" class="form-control mr-sm-2" type="search"
+            placeholder="Ricerca per titolo, autore o categoria" aria-label="Search">
           <div class="input-group-append">
-            <button id="confirm-search-input" class="btn btn-outline-secondary " type="button">Search</button>
+            <button id="confirm-search-input" class="btn btn-outline-secondary " type="button"><i class="bi-search"></i> Search</button>
           </div>
         </div>
-        <ul id="book-search-results" class="list-unstyled list-group"></ul>
+       
+          <ul id="book-search-results" class="list-group" style=""></ul>
+        
+
       </main>
     </div>
   </div>
@@ -116,7 +114,7 @@ session_start();
 
 
 </body>
-<li id="book-template" hidden class="media list-group-item list-group-item-action">
+<li id="book-template" hidden class="media list-group-item list-group-item-action" style="">
   <div class="d-flex">
     <div>
       <img id="img" class="flex-shrink-0" src="" width="200" height="248" alt="Generic placeholder image">
@@ -148,6 +146,26 @@ session_start();
         <div class="col-sm-9">
           <p id="editore" class="text-muted mb-0">
             {editore}
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-3">
+          <p class="mb-0">Autori</p>
+        </div>
+        <div class="col-sm-9">
+          <p id="autori" class="text-muted mb-0">
+
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-3">
+          <p class="mb-0">Categorie</p>
+        </div>
+        <div class="col-sm-9">
+          <p id="categorie" class="text-muted mb-0">
+
           </p>
         </div>
       </div>

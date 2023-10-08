@@ -3,7 +3,7 @@ class ExchangeController extends BaseController
 {
     public function __construct()
     {
-        $this->AVAILABLE_METHODS = ["list", "create"];
+        $this->AVAILABLE_METHODS = ["create"];
     }
     public function listAction()
     {
@@ -40,26 +40,27 @@ class ExchangeController extends BaseController
     {
         $strErrorDesc = '';
         $requestMethod = $_SERVER["REQUEST_METHOD"];
-        $arrQueryStringParams = $this->getQueryStringParams();
         $responseData = array("message" => $_POST["offerente"]);
 
+        switch ($requestMethod) {
+            case 'POST':
+                try {
+                    $exchangeModel = new ExchangeModel();
+                    $responseData["status"] = $exchangeModel->createExchange(
+                        $_POST["offerente"],
+                        $_POST["proponente"],
+                        $_POST["libroOfferto"],
+                        $_POST["libroProposto"],
+                    );
+                } catch (Error $e) {
+                    $strErrorDesc = $e->getMessage() . 'Something went wrong!';
+                    $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
+                }
+                break;
+            default:
+                $strErrorDesc = 'Method not supported';
+                $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
 
-        if (strtoupper($requestMethod) == 'POST') {
-            try {
-                $exchangeModel = new ExchangeModel();
-                $responseData["status"] = $exchangeModel->createExchange(
-                    $_POST["offerente"],
-                    $_POST["proponente"],
-                    $_POST["libroOfferto"],
-                    $_POST["libroProposto"],
-                );
-            } catch (Error $e) {
-                $strErrorDesc = $e->getMessage() . 'Something went wrong!';
-                $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
-            }
-        } else {
-            $strErrorDesc = 'Method not supported';
-            $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
         }
 
         if (!$strErrorDesc) {

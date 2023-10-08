@@ -3,10 +3,26 @@
         <h3>Che libro vuoi aggiungere?</h3>
         <div class="row">
             <div class="input-group mb-3">
-                <input id="book-search-bar" class="form-control mr-sm-2" type="search" placeholder="Search"
+                <input id="book-search-bar" class="form-control mr-sm-2 me-1" type="search" placeholder="Search" {query}
                     aria-label="Search">
                 <div class="input-group-append">
-                    <button id="confirm-search-input" class="btn btn-outline-secondary " type="button">Search</button>
+                    <select class="form-select border border-secondary text-muted bg-transparent" id="filtro">
+                        <option selected value="">Filtra</option>
+                        <option value="intitle:">Titolo</option>
+                        <option value="inauthor:">Autore</option>
+                        <option value="subject:">Categoria</option>
+                    </select>
+                </div>
+                <div class="input-group-append">
+                    <button id="confirm-search-input" class="btn btn-outline-secondary " type="button"><i
+                            class="bi-search"></i> Search</button>
+                </div>
+                <div class="input-group-append">
+                    <select class="form-select border border-secondary text-muted bg-transparent" id="limit">
+                        <option selected value="10">Limit: 10</option>
+                        <option value="20">Limit: 20</option>
+                        <option value="40">Limit: 40</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -15,7 +31,7 @@
             <button id="manual-input" class="btn btn-outline-secondary mb-3" type="button">Inserisi manualmente</button>
         </div>
 
-        <div class="row">
+        <div class="row overflow-y-auto" style="max-height: 750px;">
             <ul id="book-search-results" class="list-unstyled list-group"></ul>
         </div>
     </div>
@@ -117,7 +133,6 @@
                                         value="" />
                                     <input id="copertina-url" name="copertina-url" type="text"
                                         class="form-control form-control-lg" value="" />
-
                                 </div>
 
                             </div>
@@ -248,3 +263,11 @@
     </div>
 </div>
 <script src="/bookexchange/addbookscript.js"></script>
+<script>
+    query = "{queryPresente}";
+    window.addEventListener('load', function () {
+        if (query)
+            searchBooks();
+    });
+
+</script>

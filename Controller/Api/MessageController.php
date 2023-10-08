@@ -3,7 +3,7 @@ class MessageController extends BaseController
 {
     public function __construct()
     {
-        $this->AVAILABLE_METHODS = ["list", "send", "startconv"];
+        $this->AVAILABLE_METHODS = ["send", "startconv"];
     }
 
     public function startconvAction()

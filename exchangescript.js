@@ -89,11 +89,14 @@ function proponiScambio(e) {
   formData.append("libroProposto", selectedBook.id);
   formData.append("libroOfferto", libroOffertoId);
 
+
+
   fetch("http://localhost:8080/bookexchange/api.php/exchange/create", {
     method: "POST",
     body: formData,
   })
-    .then((response) => response.json())
+    .then((response) => 
+      response.json())
     .then((postResponse) => {
       if (postResponse["status"]) {
         proponiScambioButton.classList.remove("btn-danger");

@@ -12,7 +12,7 @@ class BookModel extends Database
             $limitString = "&maxResults=$limit";
         } else
             $limitString = "";
-        $query = "volumes?q=$q$limitString&fields=items(id,volumeInfo(title,authors,publisher,publishedDate,imageLinks,language,categories))";
+        $query = "volumes?q=$q$limitString&fields=items(id,volumeInfo(title,authors,publisher,publishedDate,imageLinks,language,categories))&orderBy:relevance&key=".API_KEY;
 
 
 
@@ -28,14 +28,6 @@ class BookModel extends Database
         return $results["items"];
 
         /*****************************************/
-
-        /**SE AVESSI AVUTO I DATI DEI LIBRI SUL MIO DATABASE AVREI ESEGUITO UNA QUERY COME QUESTA**/
-
-        // $query = "SELECT * FROM libro WHERE titolo LIKE ? OR autore LIKE ? LIMIT ?";
-        // $params = ["$q%", "$q%", $limit];
-        // return $this->select($query, $params);
-
-        /******************************************************************************************/
     }
 
 
@@ -85,7 +77,7 @@ class BookModel extends Database
         INNER JOIN utente ON possesso.proprietario = utente.id
         INNER JOIN scrittura ON scrittura.libro = libro.id
         INNER JOIN categoria ON categoria.libro = libro.id
-        WHERE (titolo LIKE ? OR scrittura.autore LIKE ? OR categoria.categoria LIKE ?) GROUP BY libro.id LIMIT ?";
+        WHERE (titolo LIKE ? OR scrittura.autore LIKE ? OR categoria.categoria LIKE ?) GROUP BY utente.id, libro.titolo, possesso.descrizione LIMIT ?";
         $params = ["%$q%","%$q%","%$q%",$limit];
         return $this->select($query, $params);
     }

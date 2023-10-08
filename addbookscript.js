@@ -34,6 +34,7 @@ function addAuthorField(value) {
   authorFieldTemplate.removeAttribute("id");
   if (value) {
     authorFieldTemplate.querySelector("#autore").setAttribute("value", value);
+    authorFieldTemplate.querySelector("#autore").setAttribute("readonly", "");
   }
 
   authorsRow.appendChild(authorFieldTemplate);
@@ -50,6 +51,9 @@ function addCategoriaField(value) {
     categorieFieldTemplate
       .querySelector("#categoria")
       .setAttribute("value", value);
+    categorieFieldTemplate
+      .querySelector("#categoria")
+      .setAttribute("readonly", "");
   }
 
   authorsRow.appendChild(categorieFieldTemplate);
@@ -89,12 +93,14 @@ function placeBookForm(bookData) {
     form.querySelector("#anno").setAttribute("value", bookData.anno);
     form.querySelector("#lingua").setAttribute("value", bookData.lingua);
 
-    form.querySelector("#titolo").setAttribute("readonly",'');
-    form.querySelector("#id").setAttribute("readonly",'');
-    form.querySelector("#editore").setAttribute("readonly",'');
-    form.querySelector("#anno").setAttribute("readonly",'');
-    form.querySelector("#lingua").setAttribute("readonly",'');
- 
+    form.querySelector("#titolo").setAttribute("readonly", "");
+    form.querySelector("#id").setAttribute("readonly", "");
+    form.querySelector("#editore").setAttribute("readonly", "");
+    form.querySelector("#anno").setAttribute("readonly", "");
+    form.querySelector("#lingua").setAttribute("readonly", "");
+    form.querySelector("#copertina").setAttribute("readonly", "");
+    document.getElementById("add-author-field").setAttribute("disabled", "");
+    document.getElementById("add-categorie-field").setAttribute("disabled", "");
 
     bookData.autori.forEach((autore) => {
       addAuthorField(autore);
@@ -116,6 +122,22 @@ function placeBookForm(bookData) {
         event.stopPropagation();
       }
 
+      idInput = form.querySelector("#id");
+
+      if (idInput !== "")
+        fetch(
+          "http://localhost:8080/bookexchange/api.php/book/" + idInput.value,
+          {
+            method: "GET",
+          }
+        )
+          .then((response) => response.json())
+          .then((jsonResponse) => {
+            if (jsonResponse.length != 0)
+              idInput.setCustomValidity("Inserire un id valido");
+            else idInput.setCustomValidity("");
+          });
+
       form.classList.add("was-validated");
     }
   });
@@ -124,14 +146,15 @@ function placeBookForm(bookData) {
 function searchBooks() {
   query = document.getElementById("book-search-bar").value;
   if (!query) {
-    console.log("empty query");
     return;
   }
   //limit = document.getElementById("limit-selector").value;
-  limit = 10;
+  limit = Number(document.getElementById("limit").value);
+  filtro = document.getElementById("filtro").value;
   fetch(
     "http://localhost:8080/bookexchange/api.php/book/list?q=" +
       '"' +
+      filtro +
       query +
       '"' +
       "&limit=" +

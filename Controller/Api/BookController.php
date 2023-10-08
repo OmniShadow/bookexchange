@@ -260,9 +260,6 @@ class BookController extends BaseController
                                 $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
                             }
                             break;
-
-
-
                         default:
                             $strErrorDesc = 'Method not supported';
                             $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';

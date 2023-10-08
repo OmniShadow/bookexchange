@@ -12,7 +12,7 @@ class UserModel extends Database
     }
     public function getUser($userId)
     {
-        $query = "SELECT id,username, email, avatar FROM utente WHERE id = ?";
+        $query = "SELECT id,username, email, avatar,stato FROM utente WHERE id = ?";
         $params = [$userId];
         return $this->select($query, $params);
     }
@@ -73,6 +73,9 @@ WHERE scambio.proponente = ? OR scambio.offerente = ? ORDER BY scambio.data_crea
 
         if (password_verify($password, $user["password"])) {
             $this->message = "User logged in successfully";
+            $query = "UPDATE utente SET stato = 1 WHERE email = ?";
+            $params = [$email];
+            $this->createUpdateDelete($query,$params);
 
             return $response;
         }

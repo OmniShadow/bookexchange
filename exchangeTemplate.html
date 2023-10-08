@@ -1,20 +1,23 @@
-<div id="exchange-template" class="container-lg bg-body-secondary my-1 rounded-5 border border-dark-subtle border-3">
+<div id="exchange-template" class="container-lg my-1 ">
     <div class="row text-center">
         <p>{stato}</p>
     </div>
     <div class="row">
-        <div class="col border border-dark-subtle rounded-start-5">
+        <div class="col border border-dark rounded-start-5 bg-dark-subtle">
             <div class="row px-2 pt-4">
                 <div class="">
-                    <div class="d-flex align-items-center text-black text-decoration-none">
-                        <img src="{avatarProponente}" width="64" height="64" class="rounded-circle">
-                        <span class="d-none d-sm-inline mx-1">
-                            {proponente}
-                        </span>
-                        <span id="user-id" class="d-none d-sm-inline mx-1 text-secondary">
-                            {proponenteId}
-                        </span>
-                    </div>
+                    <a href="http://localhost:8080/bookexchange/api.php/user/{proponenteId}/profile/info" class="text-decoration-none fs-5 fw-semibold">
+                        <div class="d-flex align-items-center text-black text-decoration-none">
+                            <img src="{avatarProponente}" width="64" height="64" class="rounded-circle">
+                            <span class="d-none d-sm-inline mx-1">
+                                {proponente}
+                            </span>
+                            <span id="user-id" class="d-none d-sm-inline mx-1 text-secondary">
+                                {proponenteId}
+                            </span>
+                        </div>
+                    </a>
+
                 </div>
             </div>
             <div class="row px-2 pb-2">
@@ -30,29 +33,32 @@
                                     <p class="mb-0">Titolo</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <h5 id="titolo" class="mt-0 mb-1">
+                                    <h6 id="titolo" class="mt-0 mb-1">
                                         {libroPropostoTitolo}
-                                    </h5>
-
+                                    </h6>
                                 </div>
                             </div>
+                            <hr>
                         </div>
                 </li>
             </div>
 
         </div>
-        <div class="col border border-dark rounded-end-5">
+        <div class="col border border-dark rounded-end-5 bg-dark-subtle">
             <div class="row px-2 pt-4">
                 <div class="">
-                    <div class="d-flex align-items-center text-black text-decoration-none">
-                        <img src="{avatarOfferente}" width="64" height="64" class="rounded-circle">
-                        <span class="d-none d-sm-inline mx-1">
-                            {offerente}
-                        </span>
-                        <span id="offerente-id" class="d-none d-sm-inline mx-1 text-secondary">
-                            {offerenteId}
-                        </span>
-                    </div>
+                    <a href="http://localhost:8080/bookexchange/api.php/user/{offerenteId}/profile/info" class="text-decoration-none fs-5 fw-semibold">
+                        <div class="d-flex align-items-center text-black text-decoration-none">
+                            <img src="{avatarOfferente}" width="64" height="64" class="rounded-circle">
+                            <span class="d-none d-sm-inline mx-1">
+                                {offerente}
+                            </span>
+                            <span id="offerente-id" class="d-none d-sm-inline mx-1 text-secondary">
+                                {offerenteId}
+                            </span>
+                        </div>
+                    </a>
+                   
                 </div>
             </div>
             <div class="row px-2">
@@ -69,9 +75,9 @@
                                     <p class="mb-0">Titolo</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <h5 id="title" class="mt-0 mb-1">
+                                    <h6 id="title" class="mt-0 mb-1">
                                         {libroOffertoTitolo}
-                                    </h5>
+                                    </h6>
                                 </div>
                             </div>
                             <hr>

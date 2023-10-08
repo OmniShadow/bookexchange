@@ -1,15 +1,14 @@
 
-<li class="clearfix">
-    <div class="{position}">
-        <span>{datetime}</span>
+<div class="text-muted small text-nowrap {position}">{datetime}</div>
+<div class="{position} pb-4">
+    <div>
+        <img src="{avatarUtente}"
+            class="rounded-circle mr-1" alt="{utente}" width="40" height="40">
+        
     </div>
-    <div class="{messageType} py-2 px-3 mb-2 border rounded-5 text-white text-wrap text-break" style="min-height:50px; min-width: 10%;">
-        <h6>
-            {messaggio}
-        </h6>
+    <div class="flex-shrink-1 {colore} rounded py-2 px-3 mr-3 ">
+        <div class="mb-1" style="font-weight: bold;">{utente}</div>
+        {messaggio}
     </div>
-</li>
-
-
-
+</div>
 

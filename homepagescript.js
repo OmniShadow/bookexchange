@@ -10,25 +10,29 @@ function checkEnter(event) {
   return;
 }
 
-function searchBooks() {
+async function searchBooks() {
   query = document.getElementById("book-search-bar").value;
   if (!query) {
     return;
   }
-
-  limit = 10;
-  fetch("http://localhost:8080/bookexchange/api.php/book/search?q=" + query, {
-    method: "GET",
-  })
+  await fetch(
+    "http://localhost:8080/bookexchange/api.php/book/search?q=" + query,
+    {
+      method: "GET",
+    }
+  )
     .then((response) => response.json())
     .then((books) => {
       if (books.error) {
         return;
       }
-      bookList = document.getElementById("book-search-results");
+      var bookList = document.getElementById("book-search-results");
       bookList.innerHTML = "";
       books.forEach((book) => {
-        bookElement = document.getElementById("book-template").cloneNode(true);
+
+        let bookElement = document
+          .getElementById("book-template")
+          .cloneNode(true);
         bookElement.setAttribute("id", book.id + book.libro);
         bookElement.querySelector("#img").setAttribute("src", book.copertina);
 
@@ -52,8 +56,43 @@ function searchBooks() {
               "exchange.php?user=" + book.proprietario + "&book=" + book.libro;
           });
 
-        bookElement.removeAttribute("hidden");
+        fetch(
+          "http://localhost:8080/bookexchange/api.php/book/" +
+            book.libro +
+            "/authors",
+          {
+            method: "GET",
+          }
+        )
+          .then((response) => response.json())
+          .then((getResponse) => {
+            let autori = "";
+            getResponse.forEach((a) => {
+              autori = autori + a.autore + ", ";
+            });
+           
+            bookElement.querySelector("#autori").innerText = autori;
+          });
 
+          fetch(
+            "http://localhost:8080/bookexchange/api.php/book/" +
+              book.libro +
+              "/categories",
+            {
+              method: "GET",
+            }
+          )
+            .then((response) => response.json())
+            .then((getResponse) => {
+              let categorie = "";
+              getResponse.forEach((categoria) => {
+                categorie = categorie + categoria.categoria + ", ";
+              });
+             
+              bookElement.querySelector("#categorie").innerText = categorie;
+            });
+
+        bookElement.removeAttribute("hidden");
 
         bookList.appendChild(bookElement);
       });

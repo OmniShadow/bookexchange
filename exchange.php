@@ -71,26 +71,37 @@ $categorieLibroOfferto = json_decode($curlOutput, true);
 
 </head>
 
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm p-3 bg-primary-subtle">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="home.php">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-sm">
-                                <img class="img-thumbnail" src="imgs/icon.png" alt="" width="50" height="50">
-                            </div>
-                            <div class="col-sm">
-                                <h2>
-                                    BookExchange
-                                </h2>
-                            </div>
-                        </div>
+<body class="text-center bg-dark-subtle">
+
+    <header
+        class="bg-secondary d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 border-bottom">
+
+        <a href="/bookexchange/home.php"
+            class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+            <div class="container">
+                <div class="row row-cols-3">
+                    <div class="col-auto">
+                        <img class="bi me-2" src="/bookexchange/imgs/icon.png" width="40" height="40" role="img"
+                            aria-label="Bootstrap">
+                        </img>
                     </div>
-                </a>
+                    <div class="col-auto d-flex align-items-start">
+                        <h3>
+                            BookExchange
+                        </h3>
+                    </div>
+                </div>
+
             </div>
-        </nav>
+        </a>
+
+        <ul class="nav col-12 col-md-auto justify-content-center ">
+            <li><a href="/bookexchange/home.php" class="nav-link px-2 link-dark">Home</a></li>
+            <li><a href="docs.html" class="nav-link px-2 link-dark">Docs</a></li>
+        </ul>
+
+        <div class="col-md-3 text-end">
+        </div>
     </header>
 
     <main class="container-lg bg-body-secondary my-5">

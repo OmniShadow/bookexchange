@@ -1,6 +1,75 @@
-<div class=" col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-    <h3>Le mie conversazioni</h3>
-    <ul id="user-books" class="list-unstyled list-group">
-        {conversazioni}
-    </ul>
- </div>
+
+<style>
+   
+    .chat-online {
+        color: #34ce57
+    }
+
+    .chat-offline {
+        color: #e4606d
+    }
+
+    .chat-messages {
+        display: flex;
+        flex-direction: column;
+        height: 600px;
+        max-height: 600px;
+        overflow-y: auto
+    }
+
+    .chat-message-left,
+    .chat-message-right {
+        display: flex;
+        flex-shrink: 0;
+    }
+
+    .chat-message-left {
+        margin-right: auto
+    }
+
+    .chat-message-right {
+        flex-direction: row-reverse;
+        margin-left: auto
+    }
+
+    .py-3 {
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
+    }
+
+    .px-4 {
+        padding-right: 1.5rem !important;
+        padding-left: 1.5rem !important;
+    }
+
+    .flex-grow-0 {
+        flex-grow: 0 !important;
+    }
+
+    .border-top {
+        border-top: 1px solid #dee2e6 !important;
+    }
+</style>
+<div class="content">
+    <div class="container p-0">
+        <div class="card">
+            <div class="row g-0">
+                <div class="col-12 col-lg-5 col-xl-3 border-end bg-body-tertiary">
+                    <div class="px-4 d-none d-md-block">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-grow-1">
+                                <input type="text" class="form-control my-3" placeholder="Ricerca utenti (non implementato)">
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="list-unstyled list-group overflow-y-auto" style="max-height: 600px;">
+                        {conversazioni}
+                    </ul>
+                    <hr class="d-block d-lg-none mt-1 mb-0">
+                </div>
+                <div class="col-12 col-lg-7 col-xl-9 messaggi">{messaggi}</div>
+
+            </div>
+        </div>
+    </div>
+</div>
