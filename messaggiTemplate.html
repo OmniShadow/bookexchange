@@ -1,55 +1,61 @@
-
-
-    <div class="py-2 px-4 border-bottom d-none d-lg-block bg-body-secondary">
-        <a href="/bookexchange/api.php/user/{destinatarioId}/profile/" class="d-flex align-items-center py-1 text-decoration-none text-black">
-            <div class="position-relative">
-                <img src="{destinatarioAvatar}" class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40">
-            </div>
-            <div class="flex-grow-1 pl-3">
-                <strong>{destinatario}</strong>
-                <div class="text-muted small"><em></em></div>
-            </div>
-
-        </a>
-    </div>
-
-    <div class="position-relative">
-        <div class="chat-messages p-4">
-            {messaggi}
+<div class="py-2 px-4 border-bottom d-none d-lg-block bg-body-secondary">
+    <a href="/bookexchange/api.php/user/{destinatarioId}/profile/"
+        class="d-flex align-items-center py-1 text-decoration-none text-black">
+        <div class="position-relative">
+            <img src="{destinatarioAvatar}" class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40">
         </div>
+        <div class="flex-grow-1 pl-3">
+            <strong>{destinatario}</strong>
+            <div class="text-muted small"><em></em></div>
+        </div>
+
+    </a>
+</div>
+
+<div class="position-relative">
+    <div class="chat-messages p-4">
+        {messaggi}
     </div>
+</div>
 
-    <div class="flex-grow-0 py-3 px-4 border-top">
-        <div class="input-group">
-            <input id="messaggio" type="text" class="form-control" placeholder="Scrivi il tuo messaggio...">
-            <button class="btn btn-primary" onclick="
-            textarea = document.getElementById('messaggio');
-            messaggio = textarea.value;
-            console.log(messaggio);
-            destinatario = {destinatarioId};
-            conversazione = {conversazioneId};
-            mittente = {mittenteId};
+<div class="flex-grow-0 py-3 px-4 border-top">
+    <div class="input-group">
+        <input id="messaggio" type="text" class="form-control" placeholder="Scrivi il tuo messaggio..." onkeypress="javascript: if(event.keyCode == 13)
+            sendMessage();">
+        <button class="btn btn-primary" onclick="
+                    sendMessage();
+            ">
+            <i id="send-button" class="bi-send">
 
-            formData = new FormData();
-            formData.append('mittente', mittente);
-            formData.append('destinatario',destinatario);
-            formData.append('conversazione', conversazione);
-            formData.append('messaggio', messaggio);
-            if(messaggio !='')
-            fetch('http://localhost:8080/bookexchange/api.php/message/send',{
+            </i></button>
+    </div>
+</div>
+
+
+<script>
+    function sendMessage() {
+        textarea = document.getElementById('messaggio');
+        messaggio = textarea.value;
+        console.log(messaggio);
+        destinatario = {destinatarioId};
+        conversazione = {conversazioneId};
+        mittente = {mittenteId};
+
+        formData = new FormData();
+        formData.append('mittente', mittente);
+        formData.append('destinatario', destinatario);
+        formData.append('conversazione', conversazione);
+        formData.append('messaggio', messaggio);
+        if (messaggio != '')
+            fetch('http://localhost:8080/bookexchange/api.php/message/send', {
                 method: 'POST',
                 body: formData,
             })
-            .then(response => response.json())
-            .then(postResponse =>{
-                console.log(postResponse);
-                textarea.value = '';
-                location.reload();
-            })
-            ">
-                <i id="send-button" class="bi-send">
-
-                </i></button>
-        </div>
-    </div>
-
+                .then(response => response.json())
+                .then(postResponse => {
+                    console.log(postResponse);
+                    textarea.value = '';
+                    location.reload();
+                })
+    }
+</script>
