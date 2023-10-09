@@ -92,7 +92,7 @@ WHERE scambio.proponente = ? OR scambio.offerente = ? ORDER BY scambio.data_crea
 
         //handle session and status value
 
-        $response = $this->createUpdateDelete($query, $params);
+        return $this->createUpdateDelete($query, $params);
     }
 
     public function getMessage()

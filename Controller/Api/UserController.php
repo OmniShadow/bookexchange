@@ -369,9 +369,17 @@ class UserController extends BaseController
                     $userModel = new UserModel;
                     $userId = $_POST["id"];
 
-
+                    if(isset($_SESSION["user"]["id"]) && $_SESSION["user"]["id"] == $userId){
+                        $responseData["status"] = $userModel->logoutUser($userId);
+                        if(!$responseData["status"])
+                            throw new Error("System error ");
+                        session_destroy();
+                    }
+                    else
+                        throw new Error("User not logged in");
+                    
                 } catch (Error $e) {
-                    $strErrorDesc = $e->getMessage() . 'Something went wrong!';
+                    $strErrorDesc = $e->getMessage() . ' Something went wrong!';
                     $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
                 }
                 break;
