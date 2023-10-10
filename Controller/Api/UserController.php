@@ -612,6 +612,7 @@ HTML;
                 '{position}' => $position,
                 '{utente}' => $mittente != $messaggio["mittente"] ? $destinatario["username"] : $_SESSION["user"]["username"],
                 '{avatarUtente}' => $mittente != $messaggio["mittente"] ? $destinatario["avatar"] : $_SESSION["user"]["avatar"],
+                '{messageId}' => next($messaggi) == false? "lastMessage" : $messaggio["id"],
             );
 
             $messaggiHtml = $messaggiHtml . strtr($messaggioTemplate, $to_replace_messaggio);

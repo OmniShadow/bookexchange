@@ -33,6 +33,15 @@
 
 
 <script>
+    console.log(location.href);
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    sleep(100).then(() => { document.getElementById("messaggio").focus(); });
+
+
     function sendMessage() {
         textarea = document.getElementById('messaggio');
         messaggio = textarea.value;
@@ -55,7 +64,7 @@
                 .then(postResponse => {
                     console.log(postResponse);
                     textarea.value = '';
-                    location.reload();
+                    window.location.reload();
                 })
     }
 </script>
