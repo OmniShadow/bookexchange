@@ -11,7 +11,6 @@
     }).then(response => response.json())
     .then(postResponse =>{
         //fai lo scambio
-
         formData = new FormData();
         fetch('http://localhost:8080/bookexchange/api.php/exchange/' + scambioId + '/commit',{
         method: 'POST',
