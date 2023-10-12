@@ -7,7 +7,7 @@
     formData.append('userId', idUtente);
     formData.append('description', descrizione);
     if(confirm('Vuoi eliminare questo libro?'))
-    fetch('http://localhost:8080/bookexchange/api.php/book/{id}/delete',{
+    fetch('/bookexchange/api.php/book/{id}/delete',{
         method: 'POST',
         body:formData,
     }).then(response => response.json())

@@ -56,7 +56,7 @@
         formData.append('conversazione', conversazione);
         formData.append('messaggio', messaggio);
         if (messaggio != '')
-            fetch('http://localhost:8080/bookexchange/api.php/message/send', {
+            fetch('/bookexchange/api.php/message/send', {
                 method: 'POST',
                 body: formData,
             })

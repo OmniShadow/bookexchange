@@ -12,7 +12,7 @@ var proponiScambioButton = document.getElementById("proponi-scambio");
 var userBooks;
 var selectedBook;
 
-fetch("http://localhost:8080/bookexchange/api.php/user/" + userId + "/books", {
+fetch("/bookexchange/api.php/user/" + userId + "/books", {
   method: "GET",
 })
   .then((response) => response.json())
@@ -20,7 +20,7 @@ fetch("http://localhost:8080/bookexchange/api.php/user/" + userId + "/books", {
     userBooks = books;
     books.forEach((book) => {
       fetch(
-        "http://localhost:8080/bookexchange/api.php/book/" +
+        "/bookexchange/api.php/book/" +
           book.id +
           "/authors",
         { method: "GET" }
@@ -34,7 +34,7 @@ fetch("http://localhost:8080/bookexchange/api.php/user/" + userId + "/books", {
           book.autori = bookAuthors;
         });
       fetch(
-        "http://localhost:8080/bookexchange/api.php/book/" +
+        "/bookexchange/api.php/book/" +
           book.id +
           "/categories",
         { method: "GET" }
@@ -91,7 +91,7 @@ function proponiScambio(e) {
 
 
 
-  fetch("http://localhost:8080/bookexchange/api.php/exchange/create", {
+  fetch("/bookexchange/api.php/exchange/create", {
     method: "POST",
     body: formData,
   })

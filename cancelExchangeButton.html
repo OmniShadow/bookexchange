@@ -5,7 +5,7 @@
   formData.append('scambioId', scambioId);
   formData.append('stato', stato);
 
-    fetch('http://localhost:8080/bookexchange/api.php/exchange/' + scambioId + '/updateStatus',{
+    fetch('/bookexchange/api.php/exchange/' + scambioId + '/updateStatus',{
         method: 'POST',
         body:formData,
     }).then(response => response.json())

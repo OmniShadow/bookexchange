@@ -51,18 +51,19 @@
         </div>
         <hr>
         <div id="main">
-            <div>
-                <img id="success" class="mb-4" src="imgs/success.png" alt="" width="144" height="144">
-                <h2>
-                    Login Successfull!
-                </h2>
-            </div>
+        <div>
+            
+            <img id="failed" class="mb-4" src="imgs/failed.png" alt="" width="144" height="144">
+            <h2>
+                Login Failed!
+            </h2>
+        </div>
         </div>
 
 
     </div>
 <?php
- header("refresh:2; url=/bookexchange/home.php");
+ header("refresh:2; url=/bookexchange/login.php");
 ?>
 </body>
 

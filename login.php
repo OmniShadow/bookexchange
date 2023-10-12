@@ -1,81 +1,3 @@
-<?php
-session_start();
-if (isset($_POST["email"]) && isset($_POST["password"])) {
-
-    $params = array("email" => $_POST["email"], "password" => $_POST["password"], );
-
-    $curl = curl_init();
-    curl_setopt($curl, CURLOPT_POST, true);
-    curl_setopt($curl, CURLOPT_URL, "http://localhost:8080/bookexchange/api.php/user/login");
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($curl, CURLOPT_HEADER, false);
-    curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
-
-
-    $curlOutput = curl_exec($curl);
-    curl_close($curl);
-    $output = json_decode($curlOutput, true);
-
-    if (is_array($output["status"])) {
-        $_SESSION["loggedin"] = true;
-        $user = $output["status"];
-        $_SESSION["user"] = $user[0];
-    } else
-        $_SESSION["loggedin"] = false;
-
-}
-
-
-$htmlForm = <<<HTML
- <form id="login-form" autocomplete="off" novalidate action="login.php" method="POST">
-        <div class="container-sm w-50">
-            <div class="form-floating mb-3">
-                <input name="email" type="email" class="form-control" id="email" required placeholder="name@example.com">
-                <label for="email">Email address</label>
-                <div class="invalid-feedback">Inserisci un indirizzo email</div>
-            </div>
-            <div class="form-floating">
-                <input name="password" type="password" class="form-control" id="password" required placeholder="Password">
-                
-                <label for="password">Password</label>
-                <div class="invalid-feedback">Inserisci una password</div>
-            </div>
-            <div class="form-floating">
-            <a href="/bookexchange/register.php">
-            Non hai ancora un account? Registrati qui!
-        </a>
-            </div>
-        </div>
-        
-       
-
-        <button type="submit" class="btn btn-dark mt-2">Accedi</button>
-    </form>
-HTML;
-$htmlLoginSuccess = <<<HTML
-<div>
-    <img id="success" class="mb-4" src="imgs/success.png" alt="" width="144" height="144">
-        <h2>
-            Login Successfull!
-        </h2>
-</div>
-HTML;
-$htmlLoginFailed = <<<HTML
-<div>
-            
-            <img id="failed" class="mb-4" src="imgs/failed.png" alt="" width="144" height="144">
-            <h2>
-                Login Failed!
-            </h2>
-        </div>
-HTML;
-
-?>
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -128,20 +50,34 @@ HTML;
             <h3>LOGIN</h3>
         </div>
         <hr>
+        <div id="main">
+            <form id="login-form" autocomplete="off" novalidate action="/bookexchange/api.php/user/login" method="POST">
+                <div class="container-sm w-50">
+                    <div class="form-floating mb-3">
+                        <input name="email" type="email" class="form-control" id="email" required
+                            placeholder="name@example.com">
+                        <label for="email">Email address</label>
+                        <div class="invalid-feedback">Inserisci un indirizzo email</div>
+                    </div>
+                    <div class="form-floating">
+                        <input name="password" type="password" class="form-control" id="password" required
+                            placeholder="Password">
 
-        <?php
-        if (!isset($_SESSION["loggedin"])) {
-            echo ($htmlForm);
-        } else if ($_SESSION["loggedin"] == true) {
-            echo ($htmlLoginSuccess);
-            header("refresh:2; url=home.php");
-        } else {
-            echo ($htmlLoginFailed);
-            session_destroy();
-            header("refresh:2; url=login.php");
-        }
+                        <label for="password">Password</label>
+                        <div class="invalid-feedback">Inserisci una password</div>
+                    </div>
+                    <div class="form-floating">
+                        <a href="/bookexchange/register.php">
+                            Non hai ancora un account? Registrati qui!
+                        </a>
+                    </div>
+                </div>
 
-        ?>
+
+
+                <button type="submit" class="btn btn-dark mt-2">Accedi</button>
+            </form>
+        </div>
 
 
     </div>

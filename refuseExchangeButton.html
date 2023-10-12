@@ -6,7 +6,7 @@
   formData.append('stato', stato);
 
   if(confirm('Vuoi rifiutare questo scambio?'))
-    fetch('http://localhost:8080/bookexchange/api.php/exchange/' + scambioId + '/updateStatus',{
+    fetch('/bookexchange/api.php/exchange/' + scambioId + '/updateStatus',{
         method: 'POST',
         body:formData,
     }).then(response => response.json())

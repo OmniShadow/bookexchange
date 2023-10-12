@@ -127,7 +127,7 @@ function placeBookForm(bookData) {
 
       if (idInput !== "")
         fetch(
-          "http://localhost:8080/bookexchange/api.php/book/" + idInput.value,
+          "/bookexchange/api.php/book/" + idInput.value,
           {
             method: "GET",
           }
@@ -153,7 +153,7 @@ function searchBooks() {
   limit = Number(document.getElementById("limit").value);
   filtro = document.getElementById("filtro").value;
   fetch(
-    "http://localhost:8080/bookexchange/api.php/book/list?q=" +
+    "/bookexchange/api.php/book/list?q=" +
       '"' +
       filtro +
       query +

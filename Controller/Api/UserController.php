@@ -329,6 +329,13 @@ class UserController extends BaseController
                     $userPassword = $_POST["password"];
                     $responseData["status"] = $userModel->loginUser($userEmail, $userPassword);
                     $responseData["message"] = $userModel->getMessage();
+                    if ($responseData["status"]) {
+                        $_SESSION["loggedin"] = true;
+                        $user = $responseData["status"];
+                        $_SESSION["user"] = $user[0];
+                    } else {
+                        $_SESSION["loggedin"] = false;
+                    }
 
                 } catch (Error $e) {
                     $strErrorDesc = $e->getMessage() . 'Something went wrong!';
@@ -340,10 +347,16 @@ class UserController extends BaseController
 
 
         if (!$strErrorDesc) {
-            $this->sendOutput(
-                json_encode($responseData),
-                array('Content-Type: application/json', 'HTTP/1.1 200 OK')
-            );
+            if ($responseData["status"])
+                $this->sendOutput(
+                    "",
+                    array('Content-Type: application/json', 'HTTP/1.1 200 OK', 'Location: /bookexchange/loginsuccess.php')
+                );
+            else
+                $this->sendOutput(
+                    "",
+                    array('Content-Type: application/json', 'HTTP/1.1 200 OK', 'Location: /bookexchange/loginfailed.php')
+                );
         } else {
             $this->sendOutput(
                 json_encode(array('error' => $strErrorDesc)),
@@ -420,9 +433,9 @@ class UserController extends BaseController
                     '{id}' => $userBook["id"],
                 );
                 $deleteButton = strtr($deleteButton, $to_replace_button);
-                
+
             }
-            
+
             $autoriArray = $bookModel->getBookAuthors($userBook["id"]);
             $autori = "";
             foreach ($autoriArray as $autore) {

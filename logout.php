@@ -4,7 +4,7 @@
     echo $_SESSION["user"]["id"];
     ?>);
 
- fetch("http://localhost:8080/bookexchange/api.php/user/logout", {
+ fetch("/bookexchange/api.php/user/logout", {
         method: 'POST',
         body: formData,
     })

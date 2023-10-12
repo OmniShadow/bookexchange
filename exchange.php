@@ -13,7 +13,7 @@ $user = $_SESSION["user"];
 
 
 $curl = curl_init();
-curl_setopt($curl, CURLOPT_URL, "http://localhost:8080/bookexchange/api.php/user/$idOfferente");
+curl_setopt($curl, CURLOPT_URL, "/bookexchange/api.php/user/$idOfferente");
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($curl, CURLOPT_HEADER, false);
 
@@ -23,7 +23,7 @@ curl_close($curl);
 $offerente = json_decode($curlOutput, true)["user"];
 
 $curl = curl_init();
-curl_setopt($curl, CURLOPT_URL, "http://localhost:8080/bookexchange/api.php/book/$idLibroOfferto");
+curl_setopt($curl, CURLOPT_URL, "/bookexchange/api.php/book/$idLibroOfferto");
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($curl, CURLOPT_HEADER, false);
 
@@ -33,7 +33,7 @@ curl_close($curl);
 $libroOfferto = json_decode($curlOutput, true)[0];
 
 $curl = curl_init();
-curl_setopt($curl, CURLOPT_URL, "http://localhost:8080/bookexchange/api.php/book/$idLibroOfferto/authors");
+curl_setopt($curl, CURLOPT_URL, "/bookexchange/api.php/book/$idLibroOfferto/authors");
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($curl, CURLOPT_HEADER, false);
 
@@ -43,7 +43,7 @@ curl_close($curl);
 $autoriLibroOfferto = json_decode($curlOutput, true);
 
 $curl = curl_init();
-curl_setopt($curl, CURLOPT_URL, "http://localhost:8080/bookexchange/api.php/book/$idLibroOfferto/categories");
+curl_setopt($curl, CURLOPT_URL, "/bookexchange/api.php/book/$idLibroOfferto/categories");
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($curl, CURLOPT_HEADER, false);
 

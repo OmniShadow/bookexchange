@@ -16,7 +16,7 @@ async function searchBooks() {
     return;
   }
   await fetch(
-    "http://localhost:8080/bookexchange/api.php/book/search?q=" + query,
+    "/bookexchange/api.php/book/search?q=" + query,
     {
       method: "GET",
     }
@@ -57,7 +57,7 @@ async function searchBooks() {
           });
 
         fetch(
-          "http://localhost:8080/bookexchange/api.php/book/" +
+          "/bookexchange/api.php/book/" +
             book.libro +
             "/authors",
           {
@@ -75,7 +75,7 @@ async function searchBooks() {
           });
 
           fetch(
-            "http://localhost:8080/bookexchange/api.php/book/" +
+            "/bookexchange/api.php/book/" +
               book.libro +
               "/categories",
             {

@@ -17,16 +17,16 @@
                                     formData.append(
                                         'userId',userId
                                     );
-                                    fetch('http://localhost:8080/bookexchange/api.php/message/startconv',{
+                                    fetch('/bookexchange/api.php/message/startconv',{
                                         method:'POST',
                                         body: formData,
                                     })
                                     .then(response => response.json())
                                     .then(postResponse =>{
                                         if(postResponse.status)
-                                            location.href = 'http://localhost:8080/bookexchange/api.php/user/'+loggedUser+'/profile/messages/'+postResponse.conversazione;
+                                            location.href = '/bookexchange/api.php/user/'+loggedUser+'/profile/messages/'+postResponse.conversazione;
                                         else
-                                        location.href = 'http://localhost:8080/bookexchange/login.php';
+                                        location.href = '/bookexchange/login.php';
                                     });
                                     ">Message</button>
                             </div>

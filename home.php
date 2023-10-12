@@ -46,7 +46,7 @@ session_start();
 
     <div class="col-md-3 text-end pe-5 pe-lg-5">
       <a type="button" class="btn <?php
-      if (isset($_SESSION["loggedin"]))
+      if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"])
         echo ("btn-light");
       else
         echo ("btn-outline-light ");
@@ -56,10 +56,10 @@ session_start();
          $userId = $_SESSION["user"]["id"];
          echo ("api.php/user/$userId/profile");
        } else
-         echo ("login.php");
+         echo ("/bookexchange/login.php");
        ?>>
         <?php
-        if (isset($_SESSION["loggedin"]))
+        if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"])
           echo ('<i class="bi-person-circle"></i> Profile');
         else
           echo ("Login");
@@ -67,7 +67,7 @@ session_start();
 
       </a>
       <a type="button" class="btn <?php
-      if (isset($_SESSION["loggedin"]))
+      if (isset($_SESSION["loggedin"])  && $_SESSION["loggedin"])
         echo ("btn-outline-danger ");
       else
         echo ("btn-dark");
