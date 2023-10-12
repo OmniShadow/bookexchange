@@ -115,46 +115,46 @@ class UserController extends BaseController
                             '{book1}' => array_key_exists(0, $books) ? $books[0]["titolo"] : "",
                             '{book2}' => array_key_exists(1, $books) ? $books[1]["titolo"] : "",
                             '{book3}' => array_key_exists(2, $books) ? $books[2]["titolo"] : "",
-                            
+
                         );
                     }
                     $to_replace_subMenu = array_merge($to_replace_subMenu, $to_replace_some_books);
-                    $to_replace = array_merge($to_replace, array('{infoActive}' => 'active',));
+                    $to_replace = array_merge($to_replace, array('{infoActive}' => 'active', ));
                     break;
                 case 'books':
                     $subMenuTemplate = $this->listUserBooks($user);
-                    $to_replace = array_merge($to_replace, array('{libriActive}' => 'active',));
+                    $to_replace = array_merge($to_replace, array('{libriActive}' => 'active', ));
                     break;
                 case 'addbook':
-                    if(!isset($_SESSION["user"]))
+                    if (!isset($_SESSION["user"]))
                         break;
-                    if($_SESSION["user"]["id"] != $user["id"])
+                    if ($_SESSION["user"]["id"] != $user["id"])
                         break;
                     $subMenuTemplate = file_get_contents("addbook.html");
-                    $to_replace = array_merge($to_replace, array('{addActive}' => 'active',));
+                    $to_replace = array_merge($to_replace, array('{addActive}' => 'active', ));
                     $query = "";
                     $queryPresente = "";
-                    if(isset($_GET["q"])){
+                    if (isset($_GET["q"])) {
                         $query = $_GET["q"];
                         $queryPresente = true;
                     }
                     $to_replace_subMenu = array(
-                        '{query}' => "value =".'"'.$query.'"',
+                        '{query}' => "value =" . '"' . $query . '"',
                         '{queryPresente}' => $queryPresente,
                     );
                     break;
                 case 'exchanges':
-                    if(!isset($_SESSION["user"]))
+                    if (!isset($_SESSION["user"]))
                         break;
-                    if($_SESSION["user"]["id"] != $user["id"])
+                    if ($_SESSION["user"]["id"] != $user["id"])
                         break;
                     $subMenuTemplate = $this->listaExchanges($user);
-                    $to_replace = array_merge($to_replace, array('{scambiActive}' => 'active',));
+                    $to_replace = array_merge($to_replace, array('{scambiActive}' => 'active', ));
                     break;
                 case 'messages':
-                    if(!isset($_SESSION["user"]))
+                    if (!isset($_SESSION["user"]))
                         break;
-                    if($_SESSION["user"]["id"] != $user["id"])
+                    if ($_SESSION["user"]["id"] != $user["id"])
                         break;
                     if (isset($uriSegments[7])) {
                         //lista messaggi conversazione
@@ -163,7 +163,7 @@ class UserController extends BaseController
                     } else {
                         $subMenuTemplate = $this->listaConversazioni($user);
                     }
-                    $to_replace = array_merge($to_replace, array('{messaggiActive}' => 'active',));
+                    $to_replace = array_merge($to_replace, array('{messaggiActive}' => 'active', ));
                     break;
                 default:
                     break;
@@ -369,15 +369,14 @@ class UserController extends BaseController
                     $userModel = new UserModel;
                     $userId = $_POST["id"];
 
-                    if(isset($_SESSION["user"]["id"]) && $_SESSION["user"]["id"] == $userId){
+                    if (isset($_SESSION["user"]["id"]) && $_SESSION["user"]["id"] == $userId) {
                         $responseData["status"] = $userModel->logoutUser($userId);
-                        if(!$responseData["status"])
+                        if (!$responseData["status"])
                             throw new Error("System error ");
                         session_destroy();
-                    }
-                    else
+                    } else
                         throw new Error("User not logged in");
-                    
+
                 } catch (Error $e) {
                     $strErrorDesc = $e->getMessage() . ' Something went wrong!';
                     $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
@@ -412,7 +411,8 @@ class UserController extends BaseController
         foreach ($userBooks as $userBook) {
 
             $deleteButton = "";
-            if ($_SESSION["user"]["id"] == $user["id"]) {
+            $addHref = isset($_SESSION["user"]);
+            if (isset($_SESSION["user"]) && $_SESSION["user"]["id"] == $user["id"]) {
                 $deleteButton = file_get_contents("deleteBookButtonTemplate.html");
                 $to_replace_button = array(
                     '{userId}' => $user["id"],
@@ -420,17 +420,25 @@ class UserController extends BaseController
                     '{id}' => $userBook["id"],
                 );
                 $deleteButton = strtr($deleteButton, $to_replace_button);
+                
             }
-
+            
             $autoriArray = $bookModel->getBookAuthors($userBook["id"]);
             $autori = "";
-            foreach ($autoriArray as $autore)
-                $autori = $autori . '<a href="/bookexchange/api.php/user/'.$_SESSION["user"]["id"].'/profile/addbook?q='."inauthor:".$autore["autore"].'">'.$autore["autore"] . ", </a>";
-
+            foreach ($autoriArray as $autore) {
+                if ($addHref)
+                    $autori = $autori . '<a href="/bookexchange/api.php/user/' . $_SESSION["user"]["id"] . '/profile/addbook?q=' . "inauthor:" . $autore["autore"] . '">' . $autore["autore"] . ", </a>";
+                else
+                    $autori = $autori . $autore["autore"];
+            }
             $categorieArray = $bookModel->getBookCategories($userBook["id"]);
-            $categorie = ""; foreach ($categorieArray as $categoria)
-                $categorie = $categorie . '<a href="/bookexchange/api.php/user/'.$_SESSION["user"]["id"].'/profile/addbook?q='."insubject:".$categoria["categoria"].'">'.$categoria["categoria"] . ", </a>";
-
+            $categorie = "";
+            foreach ($categorieArray as $categoria) {
+                if ($addHref)
+                    $categorie = $categorie . '<a href="/bookexchange/api.php/user/' . $_SESSION["user"]["id"] . '/profile/addbook?q=' . "insubject:" . $categoria["categoria"] . '">' . $categoria["categoria"] . ", </a>";
+                else
+                    $categorie = $categorie . $categoria["categoria"];
+            }
 
             $to_replace_book = array(
                 '{titolo}' => $userBook["titolo"],
@@ -476,8 +484,8 @@ class UserController extends BaseController
                 '{destinatarioAvatar}' => $destinatario["avatar"],
                 '{lastMessage}' => $lastMessage,
                 '{conversazioneId}' => $conversazione["id"],
-                '{stato}' => $destinatario["stato"] == 0?"offline":"online",
-                '{statoColor}' => $destinatario["stato"] == 0?"color:darkRed":"color:green",
+                '{stato}' => $destinatario["stato"] == 0 ? "offline" : "online",
+                '{statoColor}' => $destinatario["stato"] == 0 ? "color:darkRed" : "color:green",
             );
 
             $conversazioniHtml = $conversazioniHtml . strtr($conversazioneTemplate, $to_replace_conversazione);
@@ -612,7 +620,7 @@ HTML;
                 '{position}' => $position,
                 '{utente}' => $mittente != $messaggio["mittente"] ? $destinatario["username"] : $_SESSION["user"]["username"],
                 '{avatarUtente}' => $mittente != $messaggio["mittente"] ? $destinatario["avatar"] : $_SESSION["user"]["avatar"],
-                '{messageId}' => next($messaggi) == false? "lastMessage" : $messaggio["id"],
+                '{messageId}' => next($messaggi) == false ? "lastMessage" : $messaggio["id"],
             );
 
             $messaggiHtml = $messaggiHtml . strtr($messaggioTemplate, $to_replace_messaggio);

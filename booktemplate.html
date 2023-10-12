@@ -1,14 +1,15 @@
-<li id="book-template" class="media list-group-item list-group-item-action">
+<li id="book-template" class="list-group-item list-group-item-action shadow-sm">
     <div class="d-flex">
         <div>
             <img id="img" class="flex-shrink-0" src="{copertina}" width="200" height="248"
                 alt="Generic placeholder image">
+                
         </div>
 
         <div id="body" class="flex-grow-1 ms-3">
 
             <div class="row">
-                <div class="col-sm-3">
+                <div class="col-sm-3 overflow-hidden">
                     <p class="mb-0">Titolo</p>
                 </div>
                 <div class="col-sm-9">
@@ -17,7 +18,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-3">
+                <div class="col-sm-3 overflow-hidden">
                     <p class="mb-0">ID</p>
                 </div>
                 <div class="col-sm-9">
@@ -27,7 +28,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-3">
+                <div class="col-sm-3 overflow-hidden">
                     <p class="mb-0">Categorie</p>
                 </div>
                 <div class="col-sm-9">
@@ -37,7 +38,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-3">
+                <div class="col-sm-3 overflow-hidden">
                     <p class="mb-0">Autori</p>
                 </div>
                 <div class="col-sm-9">
@@ -47,7 +48,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-3">
+                <div class="col-sm-3 overflow-hidden">
                     <p class="mb-0">Editore</p>
                 </div>
                 <div class="col-sm-9">
@@ -57,7 +58,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-3">
+                <div class="col-sm-3 overflow-hidden">
                     <p class="mb-0">Anno pubblicazione</p>
                 </div>
                 <div class="col-sm-9">
@@ -67,7 +68,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-3">
+                <div class="col-sm-3 overflow-hidden">
                     <p class="mb-0">Lingua</p>
                 </div>
                 <div class="col-sm-9">
@@ -78,14 +79,19 @@
             </div>
             <hr>
             <div class="row">
-                <div class="col-sm-9">
+                <div class="col-sm-9 overflow-hidden">
                     <p id="descrizione" class="text-muted mb-0">
                         {descrizione}
                     </p>
                 </div>
             </div>
+            <hr>
+            <div class="">
+                {deleteButton}
+            </div>
 
         </div>
+        
     </div>
+
 </li>
-{deleteButton}

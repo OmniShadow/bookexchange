@@ -1,5 +1,5 @@
-<main id="main" class=" col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-    <div class="container">
+<div id="main" class="col px-4">
+    <div id="book-selection" class="container">
         <h3>Che libro vuoi aggiungere?</h3>
         <div class="row">
             <div class="input-group mb-3">
@@ -27,7 +27,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row mx-1">
             <button id="manual-input" class="btn btn-outline-secondary mb-3" type="button">Inserisi manualmente</button>
         </div>
 
@@ -35,9 +35,7 @@
             <ul id="book-search-results" class="list-unstyled list-group"></ul>
         </div>
     </div>
-
-
-</main>
+</div>
 
 
 
@@ -120,10 +118,18 @@
 </li>
 
 <div id="book-form-template" class="container py-2 h-100" hidden>
+
     <div class="row justify-content-center align-items-center h-100">
         <div class="col-12 col-lg-9 col-xl-7">
+            <button class="btn btn-outline-secondary" onclick="
+            document.getElementById('book-form-template').setAttribute('hidden','');
+            document.getElementById('book-selection').removeAttribute('hidden');
+            ">
+                <i class="bi-arrow-left"></i> Indietro
+            </button>
             <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
                 <div class="card-body p-4 ">
+
                     <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Inserisci libro</h3>
                     <form id="book-input-form" enctype="multipart/form-data" novalidate method="POST"
                         action="/bookexchange/api.php/book/add">

@@ -111,7 +111,8 @@ function placeBookForm(bookData) {
     });
   }
   form.removeAttribute("hidden");
-  main.innerHTML = "";
+  //main.innerHTML = "";
+  document.getElementById("book-selection").setAttribute("hidden","");
   main.appendChild(form);
   var form = document.getElementById("book-input-form");
 
