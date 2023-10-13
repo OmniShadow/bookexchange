@@ -1,20 +1,4 @@
 <?php
-function file_get_contents_curl($url)
-{
-    $ch = curl_init();
-
-    curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
-    curl_setopt($ch, CURLOPT_HEADER, 0);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
-
-    $data = curl_exec($ch);
-    curl_close($ch);
-
-    return $data;
-}
-
 class UserController extends BaseController
 {
 
@@ -60,9 +44,6 @@ class UserController extends BaseController
             );
         }
     }
-
-
-
 
     private function userProfile($user, $uriSegments)
     {
@@ -430,13 +411,13 @@ class UserController extends BaseController
                 $to_replace_button = array(
                     '{userId}' => $user["id"],
                     '{descrizione}' => $userBook["descrizione"],
-                    '{id}' => $userBook["id"],
+                    '{id}' => $userBook["libro"],
                 );
                 $deleteButton = strtr($deleteButton, $to_replace_button);
 
             }
 
-            $autoriArray = $bookModel->getBookAuthors($userBook["id"]);
+            $autoriArray = $bookModel->getBookAuthors($userBook["libro"]);
             $autori = "";
             foreach ($autoriArray as $autore) {
                 if ($addHref)
@@ -444,7 +425,7 @@ class UserController extends BaseController
                 else
                     $autori = $autori . $autore["autore"];
             }
-            $categorieArray = $bookModel->getBookCategories($userBook["id"]);
+            $categorieArray = $bookModel->getBookCategories($userBook["libro"]);
             $categorie = "";
             foreach ($categorieArray as $categoria) {
                 if ($addHref)
@@ -455,7 +436,7 @@ class UserController extends BaseController
 
             $to_replace_book = array(
                 '{titolo}' => $userBook["titolo"],
-                '{id}' => $userBook["id"],
+                '{id}' => $userBook["libro"],
                 '{editore}' => $userBook["editore"],
                 '{anno}' => $userBook["anno"],
                 '{lingua}' => $userBook["lingua"],
@@ -498,7 +479,7 @@ class UserController extends BaseController
                 '{lastMessage}' => $lastMessage,
                 '{conversazioneId}' => $conversazione["id"],
                 '{stato}' => $destinatario["stato"] == 0 ? "offline" : "online",
-                '{statoColor}' => $destinatario["stato"] == 0 ? "color:darkRed" : "color:green",
+                '{statoColor}' => $destinatario["stato"] == 0 ? "chat-offline" : "chat-online",
             );
 
             $conversazioniHtml = $conversazioniHtml . strtr($conversazioneTemplate, $to_replace_conversazione);
@@ -522,7 +503,7 @@ class UserController extends BaseController
         foreach ($scambi as $scambio) {
             $buttonTemplate = "";
             $buttonTemplate2 = "";
-            if ($scambio["offerente_id"] == $user["id"] && $scambio["stato"] == "pending") {
+            if ($scambio["offerente"] == $user["id"] && $scambio["stato"] == "pending") {
                 $buttonTemplate = file_get_contents("templates/acceptExchangeButtonTemplate.html");
                 $to_replace_button = array(
                     '{scambioId}' => $scambio["id"]
@@ -534,7 +515,7 @@ class UserController extends BaseController
                     '{scambioId}' => $scambio["id"]
                 );
                 $buttonTemplate2 = strtr($buttonTemplate2, $to_replace_button);
-            } else if ($scambio["offerente_id"] != $user["id"] && $scambio["stato"] == "pending") {
+            } else if ($scambio["offerente"] != $user["id"] && $scambio["stato"] == "pending") {
                 $buttonTemplate = file_get_contents("templates/cancelExchangeButtonTemplate.html");
                 $to_replace_button = array(
                     '{scambioId}' => $scambio["id"]
@@ -569,13 +550,13 @@ HTML;
 
             $to_replace_exchange = array(
                 '{stato}' => $stato,
-                '{proponente}' => $scambio["proponente"],
-                '{proponenteId}' => $scambio["proponente_id"],
+                '{proponente}' => $scambio["proponente_username"],
+                '{proponenteId}' => $scambio["proponente"],
                 '{avatarProponente}' => $scambio["proponente_avatar"],
                 '{libroPropostoTitolo}' => $scambio["libro_proposto_titolo"],
                 '{libroPropostoCopertina}' => $scambio["libro_proposto_copertina"],
-                '{offerente}' => $scambio["offerente"],
-                '{offerenteId}' => $scambio["offerente_id"],
+                '{offerente}' => $scambio["offerente_username"],
+                '{offerenteId}' => $scambio["offerente"],
                 '{avatarOfferente}' => $scambio["offerente_avatar"],
                 '{libroOffertoCopertina}' => $scambio["libro_offerto_copertina"],
                 '{libroOffertoTitolo}' => $scambio["libro_offerto_titolo"],

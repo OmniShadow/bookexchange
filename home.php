@@ -204,6 +204,6 @@ session_start();
     </div>
   </div>
 </li>
-<script src="homepagescript.js"></script>
+<script src="/bookexchange/javascript/homepagescript.js"></script>
 
 </html>

@@ -63,7 +63,7 @@ async function searchBooks() {
           .querySelector("#scambio")
           .addEventListener("click", function (event) {
             window.location =
-              "exchange.php?user=" + book.proprietario + "&book=" + book.libro;
+              "exchange.php?offerta=" + book.possesso_id;
           });
 
         fetch(

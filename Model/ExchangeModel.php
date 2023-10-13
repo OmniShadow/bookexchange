@@ -1,11 +1,11 @@
 <?php
 class ExchangeModel extends Database
 {
-    public function createExchange($offerente, $proponente, $libroOfferto, $libroProposto)
+    public function createExchange($offerta, $proposta)
     {
 
-        $query = "INSERT INTO scambio (offerente, proponente, libro_offerto, libro_proposto) VALUES (?,?,?,?)";
-        $params = [$offerente, $proponente, $libroOfferto, $libroProposto];
+        $query = "INSERT INTO scambio (offerta,proposta) VALUES (?,?)";
+        $params = [$offerta, $proposta];
         return $this->createUpdateDelete($query, $params);
     }
 
@@ -13,6 +13,13 @@ class ExchangeModel extends Database
     {
         $query = "SELECT * FROM scambio WHERE id = ? ";
         $params = [$id];
+        return $this->select($query, $params);
+    }
+
+    public function getScambiOfferti($offerente, $libroOfferto)
+    {
+        $query = "SELECT id FROM scambio WHERE offerente = ? AND libro_offerto = ?";
+        $params = [$offerente, $libroOfferto];
         return $this->select($query, $params);
     }
 
@@ -27,23 +34,29 @@ class ExchangeModel extends Database
     {
 
         try {
-            $query = "SELECT offerente,proponente,libro_offerto,libro_proposto FROM scambio WHERE id = ? ";
+            $query = "SELECT 
+            proponente.id AS proponente, possesso_proposta.libro as libro_proposto, possesso_proposta.id as proposta, 
+            offerente.id as offerente, possesso_offerta.libro as libro_offerto, possesso_offerta.id as offerta 
+            FROM scambio 
+                        INNER JOIN possesso AS possesso_proposta ON proposta = possesso_proposta.id 
+                        INNER JOIN possesso AS possesso_offerta ON offerta = possesso_offerta.id
+                        INNER JOIN utente AS proponente ON possesso_proposta.proprietario = proponente.id
+                        INNER JOIN utente AS offerente ON possesso_offerta.proprietario = offerente.id
+                        WHERE scambio.id = ?";
             $params = [$exchangeId];
             $result = $this->select($query, $params);
             $scambioData = $result[0];
 
-            $query = "UPDATE possesso SET proprietario = ? WHERE proprietario = ? AND libro = ?";
+            $query = "UPDATE possesso SET proprietario = ? WHERE id = ?";
             $params = [
                 $scambioData["proponente"],
-                $scambioData["offerente"],
-                $scambioData["libro_offerto"],
+                $scambioData["offerta"],
             ];
             $this->createUpdateDelete($query, $params);
-            $query = "UPDATE possesso SET proprietario = ? WHERE proprietario = ? AND libro = ?";
+            $query = "UPDATE possesso SET proprietario = ? WHERE id = ?";
             $params = [
                 $scambioData["offerente"],
-                $scambioData["proponente"],
-                $scambioData["libro_proposto"],
+                $scambioData["proposta"],
             ];
             $this->createUpdateDelete($query, $params);
 

@@ -84,12 +84,8 @@ function proponiScambio(e) {
   if (!selectedBook) return;
 
   let formData = new FormData();
-  formData.append("offerente", offerenteId);
-  formData.append("proponente", userId);
-  formData.append("libroProposto", selectedBook.id);
-  formData.append("libroOfferto", libroOffertoId);
-
-
+  formData.append("proposta", offerenteId);
+  formData.append("offerta", userId);
 
   fetch("/bookexchange/api.php/exchange/create", {
     method: "POST",

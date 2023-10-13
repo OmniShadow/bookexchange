@@ -26,22 +26,30 @@ class UserModel extends Database
 
     public function getUserBooks($userId)
     {
-        $query = "SELECT id,titolo, editore, copertina, anno, lingua,descrizione FROM possesso INNER JOIN libro ON libro.id = possesso.libro WHERE proprietario = ?";
+        $query = "SELECT possesso.id as id,libro.id as libro,titolo, editore, copertina, anno, lingua,descrizione FROM possesso INNER JOIN libro ON libro.id = possesso.libro WHERE proprietario = ?";
         $params = [$userId];
         return $this->select($query, $params);
     }
 
     public function getUserExchanges($userId)
     {
-        $query = "SELECT scambio.data_creazione,scambio.id, scambio.stato, proponente.username as proponente, proponente.id as proponente_id, proponente.avatar as proponente_avatar, offerente.username as offerente,
-		offerente.id as offerente_id, offerente.avatar as offerente_avatar, libro_proposto.titolo as libro_proposto_titolo, libro_proposto.id as libro_proposto_id,
-        libro_proposto.copertina as libro_proposto_copertina, libro_offerto.titolo as libro_offerto_titolo, libro_offerto.id as libro_offerto_id, libro_offerto.copertina as libro_offerto_copertina
-FROM scambio
-INNER JOIN utente as proponente ON scambio.proponente = proponente.id
-INNER JOIN utente as offerente ON scambio.offerente = offerente.id
-INNER JOIN libro as libro_proposto ON scambio.libro_proposto = libro_proposto.id
-INNER JOIN libro as libro_offerto ON scambio.libro_offerto = libro_offerto.id
-WHERE scambio.proponente = ? OR scambio.offerente = ? ORDER BY scambio.data_creazione DESC";
+        $query = "SELECT 
+        proponente.id AS proponente, proponente.username as proponente_username, proponente.avatar as proponente_avatar,
+        libro_proposto.titolo as libro_proposto_titolo,  libro_proposto.copertina as libro_proposto_copertina,
+        possesso_proposta.id as proposta,
+        offerente.id as offerente, offerente.username as offerente_username, offerente.avatar as offerente_avatar,
+        libro_offerto.id as libro_offerto_titolo, libro_offerto.copertina as libro_offerto_copertina,
+        possesso_offerta.id as offerta,
+        scambio.stato as stato,
+        scambio.id as id
+        FROM scambio 
+                    INNER JOIN possesso AS possesso_proposta ON proposta = possesso_proposta.id 
+                    INNER JOIN possesso AS possesso_offerta ON offerta = possesso_offerta.id
+                    INNER JOIN utente AS proponente ON possesso_proposta.proprietario = proponente.id
+                    INNER JOIN utente AS offerente ON possesso_offerta.proprietario = offerente.id
+                    INNER JOIN libro AS libro_proposto ON possesso_proposta.libro = libro_proposto.id
+                    INNER JOIN libro AS libro_offerto ON possesso_offerta.libro = libro_offerto.id
+                    WHERE proponente.id = ? OR offerente.id = ? ORDER BY scambio.data_creazione DESC";
         $params = [$userId, $userId];
         return $this->select($query, $params);
     }
@@ -75,7 +83,7 @@ WHERE scambio.proponente = ? OR scambio.offerente = ? ORDER BY scambio.data_crea
             $this->message = "User logged in successfully";
             $query = "UPDATE utente SET stato = 1 WHERE email = ?";
             $params = [$email];
-            $this->createUpdateDelete($query,$params);
+            $this->createUpdateDelete($query, $params);
 
             return $response;
         }

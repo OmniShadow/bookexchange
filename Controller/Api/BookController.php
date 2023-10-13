@@ -5,7 +5,7 @@ class BookController extends BaseController
 
     public function __construct()
     {
-        $this->AVAILABLE_METHODS = ["list", "search", "add"];
+        $this->AVAILABLE_METHODS = ["list", "search", "add","ownedBook"];
     }
 
     public function listAction()
@@ -56,6 +56,51 @@ class BookController extends BaseController
             );
         }
     }
+
+    public function ownedBookAction()
+    {
+        $strErrorDesc = '';
+        $requestMethod = strtoupper($_SERVER["REQUEST_METHOD"]);
+        $arrQueryStringParams = $this->getQueryStringParams();
+        $responseData = array();
+
+        switch ($requestMethod) {
+            default:
+                $strErrorDesc = 'Method not supported';
+                $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
+                break;
+            case 'GET':
+                try {
+                    $bookModel = new BookModel();
+                    $possessoId = "";
+                    if (isset($arrQueryStringParams['id'])) {
+                        $possessoId = $arrQueryStringParams['id'];
+                    }
+                    else
+                        throw new Error("id non specificato ");
+
+                    $responseData = $bookModel->getOwnedBook($possessoId);
+                } catch (Error $e) {
+                    $strErrorDesc = $e->getMessage() . 'Something went wrong!';
+                    $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
+                }
+                break;
+        }
+
+        if (!$strErrorDesc) {
+            $this->sendOutput(
+                json_encode($responseData),
+                array('Content-Type: application/json', 'HTTP/1.1 200 OK')
+            );
+        } else {
+            $this->sendOutput(
+                json_encode(array('error' => $strErrorDesc)),
+                array('Content-Type: application/json', $strErrorHeader)
+            );
+        }
+    }
+
+
 
     public function searchAction()
     {

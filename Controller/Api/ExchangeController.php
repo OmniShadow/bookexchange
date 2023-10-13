@@ -40,17 +40,15 @@ class ExchangeController extends BaseController
     {
         $strErrorDesc = '';
         $requestMethod = $_SERVER["REQUEST_METHOD"];
-        $responseData = array("message" => $_POST["offerente"]);
+        $responseData = array();
 
         switch ($requestMethod) {
             case 'POST':
                 try {
                     $exchangeModel = new ExchangeModel();
                     $responseData["status"] = $exchangeModel->createExchange(
-                        $_POST["offerente"],
-                        $_POST["proponente"],
-                        $_POST["libroOfferto"],
-                        $_POST["libroProposto"],
+                        $_POST["offerta"],
+                        $_POST["proposta"],
                     );
                 } catch (Error $e) {
                     $strErrorDesc = $e->getMessage() . 'Something went wrong!';
@@ -111,6 +109,7 @@ class ExchangeController extends BaseController
                             $exchangeId = $_POST["scambioId"];
                             $exchangeStatus = $_POST["stato"];
                             $exchangeModel = new ExchangeModel();
+                                
                             $responseData["stato"] = $exchangeModel->updateExchangeStatus($exchangeId, $exchangeStatus);
                             break;
                         case 'commit':

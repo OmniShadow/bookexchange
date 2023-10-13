@@ -1,29 +1,41 @@
 <?php
 session_start();
-$idOfferente = $_GET["user"];
-$idLibroOfferto = $_GET["book"];
+$host = $_SERVER["HTTP_HOST"];
+$idOfferta = $_GET["offerta"];
 
 if (!isset($_SESSION["user"]))
     header("Location: login.php");
-if ($_SESSION["user"]["id"] == $idOfferente)
-    header("Location: home.php");
+
 
 $user = $_SESSION["user"];
 
-
-
 $curl = curl_init();
-curl_setopt($curl, CURLOPT_URL, "/bookexchange/api.php/user/$idOfferente");
+curl_setopt($curl, CURLOPT_URL, $host . "/bookexchange/api.php/book/ownedBook?id=$idOfferta");
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($curl, CURLOPT_HEADER, false);
-
 $curlOutput = curl_exec($curl);
 curl_close($curl);
+$offerta = json_decode($curlOutput, true)[0];
+
+
+
+$idOfferente = $offerta["proprietario"];
+if ($_SESSION["user"]["id"] == $idOfferente)
+    header("Location: home.php");
+$idLibroOfferto = $offerta["libro"];
+
+$curl = curl_init();
+curl_setopt($curl, CURLOPT_URL, $host . "/bookexchange/api.php/user/$idOfferente");
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HEADER, false);
+$curlOutput = curl_exec($curl);
+curl_close($curl);
+
 
 $offerente = json_decode($curlOutput, true)["user"];
 
 $curl = curl_init();
-curl_setopt($curl, CURLOPT_URL, "/bookexchange/api.php/book/$idLibroOfferto");
+curl_setopt($curl, CURLOPT_URL, $host . "/bookexchange/api.php/book/$idLibroOfferto");
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($curl, CURLOPT_HEADER, false);
 
@@ -33,7 +45,7 @@ curl_close($curl);
 $libroOfferto = json_decode($curlOutput, true)[0];
 
 $curl = curl_init();
-curl_setopt($curl, CURLOPT_URL, "/bookexchange/api.php/book/$idLibroOfferto/authors");
+curl_setopt($curl, CURLOPT_URL, $host . "/bookexchange/api.php/book/$idLibroOfferto/authors");
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($curl, CURLOPT_HEADER, false);
 
@@ -43,7 +55,7 @@ curl_close($curl);
 $autoriLibroOfferto = json_decode($curlOutput, true);
 
 $curl = curl_init();
-curl_setopt($curl, CURLOPT_URL, "/bookexchange/api.php/book/$idLibroOfferto/categories");
+curl_setopt($curl, CURLOPT_URL, $host . "/bookexchange/api.php/book/$idLibroOfferto/categories");
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($curl, CURLOPT_HEADER, false);
 
@@ -317,6 +329,114 @@ $categorieLibroOfferto = json_decode($curlOutput, true);
     </main>
 
 </body>
-<script src="exchangescript.js"></script>
+<script>
+    var userBooksSelect = document.getElementById("user-book-select");
+    var userId = <?php echo $user["id"]?>;
+    var offerenteId = <?php echo $idOfferente; ?>;
+    var libroOffertoId = "<?php echo $idLibroOfferto ?>";
+    console.log(libroOffertoId);
+    var selectedBookElement = document.getElementById("user-book-template");
+    var proponiScambioButton = document.getElementById("proponi-scambio");
+    var userBooks;
+    var selectedBook;
+
+    fetch("/bookexchange/api.php/user/" + userId + "/books", {
+        method: "GET",
+    })
+        .then((response) => response.json())
+        .then((books) => {
+            userBooks = books;
+            books.forEach((book) => {
+                fetch(
+                    "/bookexchange/api.php/book/" +
+                    book.id +
+                    "/authors",
+                    { method: "GET" }
+                )
+                    .then((response) => response.json())
+                    .then((authors) => {
+                        let bookAuthors = "";
+                        authors.forEach((autore) => {
+                            bookAuthors = bookAuthors + autore.autore;
+                        });
+                        book.autori = bookAuthors;
+                    });
+                fetch(
+                    "/bookexchange/api.php/book/" +
+                    book.id +
+                    "/categories",
+                    { method: "GET" }
+                )
+                    .then((response) => response.json())
+                    .then((categories) => {
+                        let bookCategories = "";
+                        categories.forEach((categoria) => {
+                            bookCategories = bookCategories + categoria.categoria;
+                        });
+                        book.categorie = bookCategories;
+                    });
+                optionElement = document.createElement("option");
+                optionElement.setAttribute("value", books.indexOf(book));
+                optionElement.innerText = book.titolo;
+                userBooksSelect.appendChild(optionElement);
+            });
+        });
+
+    userBooksSelect.addEventListener("change", function (event) {
+        if (event.target.value == "default") {
+            selectedBookElement.setAttribute("hidden", true);
+            selectedBook = null;
+            return;
+        }
+        selectedBook = userBooks[event.target.value];
+        selectedBookElement.querySelector("#titolo").innerText = selectedBook.titolo;
+        selectedBookElement.querySelector("#lingua").innerText = selectedBook.lingua;
+        selectedBookElement.querySelector("#editore").innerText =
+            selectedBook.editore;
+        selectedBookElement.querySelector("#autori").innerText = selectedBook.autori;
+        selectedBookElement.querySelector("#categorie").innerText =
+            selectedBook.categorie;
+        selectedBookElement.querySelector("#anno").innerText = selectedBook.anno;
+        selectedBookElement
+            .querySelector("#copertina")
+            .setAttribute("src", selectedBook.copertina);
+
+        selectedBookElement.removeAttribute("hidden");
+    });
+
+    function sleep(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
+    function proponiScambio(e) {
+        if (!selectedBook) return;
+        let formData = new FormData();
+        formData.append("offerta", <?php echo $offerta["id"]?>);
+        formData.append("proposta", selectedBook.id);
+
+        fetch("/bookexchange/api.php/exchange/create", {
+            method: "POST",
+            body: formData,
+        })
+            .then((response) =>
+                response.json())
+            .then((postResponse) => {
+                if (postResponse["status"]) {
+                    proponiScambioButton.classList.remove("btn-danger");
+                    proponiScambioButton.classList.add("btn-success");
+                    proponiScambioButton.classList.add("disabled");
+                    proponiScambioButton.innerText = "Proposta effettuata";
+                    proponiScambioButton.removeEventListener("click", proponiScambio);
+
+                    sleep(2000).then(() =>
+                        window.location.replace("/bookexchange/home.php")
+                    );
+                }
+            });
+    }
+
+    proponiScambioButton.addEventListener("click", proponiScambio);
+
+</script>
 
 </html>
