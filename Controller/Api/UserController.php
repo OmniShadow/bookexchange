@@ -70,7 +70,7 @@ class UserController extends BaseController
         $profilePageTemplate = file_get_contents("profile.html");
         $personalNavInfo = "";
         if (isset($_SESSION["user"]) && $_SESSION["user"]["id"] == $user["id"]) {
-            $personalNavInfo = file_get_contents("personalInfoNavTemplate.html");
+            $personalNavInfo = file_get_contents("templates/personalInfoNavTemplate.html");
             $to_replace_nav = array(
                 '{userId}' => $user["id"],
             );
@@ -414,8 +414,8 @@ class UserController extends BaseController
 
     private function listUserBooks($user)
     {
-        $subMenuTemplate = file_get_contents("books.html");
-        $bookTemplate = file_get_contents("booktemplate.html");
+        $subMenuTemplate = file_get_contents("templates/userBooksTemplate.html");
+        $bookTemplate = file_get_contents("templates/booktemplate.html");
         $books = "";
         $userModel = new UserModel();
         $bookModel = new BookModel();
@@ -426,7 +426,7 @@ class UserController extends BaseController
             $deleteButton = "";
             $addHref = isset($_SESSION["user"]);
             if (isset($_SESSION["user"]) && $_SESSION["user"]["id"] == $user["id"]) {
-                $deleteButton = file_get_contents("deleteBookButtonTemplate.html");
+                $deleteButton = file_get_contents("templates/deleteBookButtonTemplate.html");
                 $to_replace_button = array(
                     '{userId}' => $user["id"],
                     '{descrizione}' => $userBook["descrizione"],
@@ -476,8 +476,8 @@ class UserController extends BaseController
 
     private function listaConversazioni($user)
     {
-        $subMenuTemplate = file_get_contents("userConversazioniTemplate.html");
-        $conversazioneTemplate = file_get_contents("conversazioneTemplate.html");
+        $subMenuTemplate = file_get_contents("templates/userConversazioniTemplate.html");
+        $conversazioneTemplate = file_get_contents("templates/conversazioneTemplate.html");
         $conversazioniHtml = "";
         $messageModel = new MessageModel();
         $conversazioni = $messageModel->getUserConversations($user["id"]);
@@ -512,8 +512,8 @@ class UserController extends BaseController
 
     private function listaExchanges($user)
     {
-        $subMenuTemplate = file_get_contents("userExchanges.html");
-        $exchangeTemplate = file_get_contents("exchangeTemplate.html");
+        $subMenuTemplate = file_get_contents("templates/userExchangesTemplate.html");
+        $exchangeTemplate = file_get_contents("templates/exchangeTemplate.html");
         $exchangeElements = "";
 
         $userModel = new UserModel();
@@ -523,19 +523,19 @@ class UserController extends BaseController
             $buttonTemplate = "";
             $buttonTemplate2 = "";
             if ($scambio["offerente_id"] == $user["id"] && $scambio["stato"] == "pending") {
-                $buttonTemplate = file_get_contents("acceptExchangeButton.html");
+                $buttonTemplate = file_get_contents("templates/acceptExchangeButtonTemplate.html");
                 $to_replace_button = array(
                     '{scambioId}' => $scambio["id"]
                 );
                 $buttonTemplate = strtr($buttonTemplate, $to_replace_button);
 
-                $buttonTemplate2 = file_get_contents("refuseExchangeButton.html");
+                $buttonTemplate2 = file_get_contents("templates/refuseExchangeButtonTemplate.html");
                 $to_replace_button = array(
                     '{scambioId}' => $scambio["id"]
                 );
                 $buttonTemplate2 = strtr($buttonTemplate2, $to_replace_button);
             } else if ($scambio["offerente_id"] != $user["id"] && $scambio["stato"] == "pending") {
-                $buttonTemplate = file_get_contents("cancelExchangeButton.html");
+                $buttonTemplate = file_get_contents("templates/cancelExchangeButtonTemplate.html");
                 $to_replace_button = array(
                     '{scambioId}' => $scambio["id"]
                 );
@@ -598,8 +598,8 @@ HTML;
 
         $subMenuTemplate = $this->listaConversazioni($user);
 
-        $messaggiTemplate = file_get_contents("messaggiTemplate.html");
-        $messaggioTemplate = file_get_contents("messaggioTemplate.html");
+        $messaggiTemplate = file_get_contents("templates/messaggiTemplate.html");
+        $messaggioTemplate = file_get_contents("templates/messaggioTemplate.html");
 
         $messageModel = new MessageModel();
         $messaggi = $messageModel->getMessages($conversazioneId);

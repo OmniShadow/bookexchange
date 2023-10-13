@@ -51,16 +51,16 @@
     </header>
 
     <main class="d-flex flex-nowrap">
-        <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 280px;">
+        <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 15%;">
             <div class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                 <span class="fs-4"><i class="bi-menu-button"></i> Menu</span>
             </div>
             <hr>
-            <div class="py-2 container-fluid">
+            <div class="py-2 container-fluid overflow-hidden">
                 <a href="/bookexchange/api.php/user/{userId}/profile/info"
                     class="d-flex align-items-center text-black text-decoration-none">
-                    <img src={avatar} width="64" height="64" class="rounded-circle border border-1 border-light">
-                    <span class="d-none d-sm-inline mx-1 text-light">
+                    <img src={avatar} class="rounded-circle border border-1 border-light" width="64px" height="64px">
+                    <span class="mx-1 text-light">
                         <h5>{username}</h5>
                     </span>
                 </a>

@@ -1,7 +1,3 @@
-<?php
-$htmlForm = file_get_contents("registrationform.html");
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -48,24 +44,73 @@ $htmlForm = file_get_contents("registrationform.html");
         </div>
     </header>
 
-    <div class="p-5">
+    <div class="p-1">
         <div class="align-items-center text-center">
             <img class="mb-4" src="imgs/icon.png" alt="" width="72" height="72">
             <h3>Registrazione utente</h3>
         </div>
         <hr>
+        <div class="main">
+            <form id="registration-form" autocomplete="off" novalidate action="/bookexchange/api.php/user/register"
+                method="POST" enctype="multipart/form-data">
+                <div class="container w-75 mx-auto">
+                    <div class="row justify-content-center">
+                        <div class="col-auto">
+                            <img id="img-avatar" src="/bookexchange/imgs/useravatars/default-avatar.png" class="rounded-circle" style="width: fit-content; max-width: 128; max-height: 128px;">
+                        </div>
+                        <div class="col-auto">
+                            <div class="container-fluid mx-auto">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-floating mb-3">
+                                            <input name="avatar" type="file" class="form-control" id="avatar"
+                                                accept="image/png, image/jpeg, image/gif"
+                                                placeholder="/bookexchange/imgs/useravatars/default-avatar.png"
+                                                value="/bookexchange/imgs/useravatars/default-avatar.png">
+                                            <label for="username">Avatar</label>
+                                            <div class="invalid-feedback">Scegli un'immagine come avatar</div>
+                                        </div>
+                                    </div>
 
-        <?php
-        echo ($htmlForm);
-        ?>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-floating mb-3 ">
+                                            <input name="username" type="text" class="form-control" id="username"
+                                                required placeholder="Username">
+                                            <label for="username">Username</label>
+                                            <div class="invalid-feedback">Inserisci un nome utente</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input name="email" type="email" class="form-control" id="email" required
+                            placeholder="name@example.com">
+                        <label for="email">Email address</label>
+                        <div class="invalid-feedback">Inserisci un indirizzo email</div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input name="password" type="password" class="form-control" id="password" required
+                            placeholder="Password">
+                        <label for="password">Password</label>
+                        <div class="invalid-feedback">Inserisci una password</div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input name="confirm-password" type="password" class="form-control" id="confirm-password"
+                            required placeholder="Password">
+                        <label for="password">Conferma password</label>
+                        <div class="invalid-feedback">Inserisci la stessa password</div>
+                    </div>
+                </div>
 
+                <button type="submit" class="btn btn-dark">Registrati</button>
+            </form>
+        </div>
     </div>
-
-
-
-
-
 </body>
 <script>
     var form = document.getElementById("registration-form");

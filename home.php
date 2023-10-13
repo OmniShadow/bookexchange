@@ -89,10 +89,9 @@ session_start();
     </div>
   </header>
 
-  <div class="container-fluid overflow-y-scroll" style="max-height: 800px;">
+  <main class="container-fluid overflow-y-scroll mx-auto" style="max-height: 800px;">
     <div class="row">
-
-      <main class=" col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+      <div class="col-auto ml-sm-auto col-lg-10 pt-3 px-4">
         <h3>Cerca tra i libri disponibili</h3>
         <div class="input-group mb-3">
           <input id="book-search-bar" class="form-control mr-sm-2" type="search"
@@ -103,11 +102,9 @@ session_start();
         </div>
        
           <ul id="book-search-results" class="list-group" style=""></ul>
-        
-
-      </main>
+      </div>
     </div>
-  </div>
+  </main>
 
 
 

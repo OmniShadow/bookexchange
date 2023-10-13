@@ -23,11 +23,21 @@ async function searchBooks() {
   )
     .then((response) => response.json())
     .then((books) => {
+
       if (books.error) {
+        
         return;
       }
+      
       var bookList = document.getElementById("book-search-results");
       bookList.innerHTML = "";
+      if(books.length == 0){
+        console.log("empty")
+        emptyPage = document.createElement("h1");
+        emptyPage.innerText = "Nessun risultato :(";
+        bookList.appendChild(emptyPage);
+        return;
+      }
       books.forEach((book) => {
 
         let bookElement = document
