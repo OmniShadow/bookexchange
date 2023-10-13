@@ -68,7 +68,7 @@ async function searchBooks() {
 
         fetch(
           "/bookexchange/api.php/book/" +
-            book.libro +
+            book.id +
             "/authors",
           {
             method: "GET",
@@ -86,7 +86,7 @@ async function searchBooks() {
 
           fetch(
             "/bookexchange/api.php/book/" +
-              book.libro +
+              book.id +
               "/categories",
             {
               method: "GET",

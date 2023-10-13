@@ -349,7 +349,7 @@ $categorieLibroOfferto = json_decode($curlOutput, true);
             books.forEach((book) => {
                 fetch(
                     "/bookexchange/api.php/book/" +
-                    book.id +
+                    book.libro +
                     "/authors",
                     { method: "GET" }
                 )
@@ -357,13 +357,13 @@ $categorieLibroOfferto = json_decode($curlOutput, true);
                     .then((authors) => {
                         let bookAuthors = "";
                         authors.forEach((autore) => {
-                            bookAuthors = bookAuthors + autore.autore;
+                            bookAuthors = bookAuthors + autore.autore+ ', ';
                         });
                         book.autori = bookAuthors;
                     });
                 fetch(
                     "/bookexchange/api.php/book/" +
-                    book.id +
+                    book.libro +
                     "/categories",
                     { method: "GET" }
                 )
@@ -371,7 +371,7 @@ $categorieLibroOfferto = json_decode($curlOutput, true);
                     .then((categories) => {
                         let bookCategories = "";
                         categories.forEach((categoria) => {
-                            bookCategories = bookCategories + categoria.categoria;
+                            bookCategories = bookCategories + categoria.categoria + ', ';
                         });
                         book.categorie = bookCategories;
                     });
