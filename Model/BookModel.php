@@ -5,6 +5,8 @@ class BookModel extends Database
     //handle api connection and requests to GoogleBooks API
     public function getBooksFromApi($q, $limit)
     {
+        if($limit > 40)
+            $limit = 40;
 
         /*******QUERY A DATABASE DI GOOGLE*********/
         $q = str_replace(" ", "+", $q);
