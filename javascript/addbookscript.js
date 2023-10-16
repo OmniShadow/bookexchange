@@ -102,17 +102,40 @@ function placeBookForm(bookData) {
     document.getElementById("add-author-field").setAttribute("disabled", "");
     document.getElementById("add-categorie-field").setAttribute("disabled", "");
 
+    document.getElementById("authors-row").innerHTML = "";
     bookData.autori.forEach((autore) => {
       addAuthorField(autore);
     });
 
+    document.getElementById("categories-row").innerHTML = "";
     bookData.categorie.forEach((categoria) => {
       addCategoriaField(categoria);
     });
+  } else {
+    form.querySelector("#copertina-url").setAttribute("value", "");
+
+    form.querySelector("#titolo").setAttribute("value", "");
+    form.querySelector("#id").setAttribute("value", "");
+    form.querySelector("#editore").setAttribute("value", "");
+    form.querySelector("#anno").setAttribute("value", "");
+    form.querySelector("#lingua").setAttribute("value", "");
+
+    form.querySelector("#titolo").removeAttribute("readonly");
+    form.querySelector("#id").removeAttribute("readonly");
+    form.querySelector("#editore").removeAttribute("readonly");
+    form.querySelector("#anno").removeAttribute("readonly");
+    form.querySelector("#lingua").removeAttribute("readonly");
+    form.querySelector("#copertina").removeAttribute("readonly");
+    document.getElementById("add-author-field").removeAttribute("disabled");
+    document.getElementById("add-categorie-field").removeAttribute("disabled");
+
+    document.getElementById("authors-row").innerHTML = "";
+
+    document.getElementById("categories-row").innerHTML = "";
   }
   form.removeAttribute("hidden");
   //main.innerHTML = "";
-  document.getElementById("book-selection").setAttribute("hidden","");
+  document.getElementById("book-selection").setAttribute("hidden", "");
   main.appendChild(form);
   var form = document.getElementById("book-input-form");
 
@@ -126,12 +149,9 @@ function placeBookForm(bookData) {
       idInput = form.querySelector("#id");
 
       if (idInput !== "")
-        fetch(
-          "/bookexchange/api.php/book/" + idInput.value,
-          {
-            method: "GET",
-          }
-        )
+        fetch("/bookexchange/api.php/book/" + idInput.value, {
+          method: "GET",
+        })
           .then((response) => response.json())
           .then((jsonResponse) => {
             if (jsonResponse.length != 0)
