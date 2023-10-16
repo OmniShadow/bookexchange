@@ -5,7 +5,7 @@ class BookController extends BaseController
 
     public function __construct()
     {
-        $this->AVAILABLE_METHODS = ["list", "search", "add","ownedBook"];
+        $this->AVAILABLE_METHODS = ["list", "search", "add", "ownedBook",];
     }
 
     public function listAction()
@@ -75,8 +75,7 @@ class BookController extends BaseController
                     $possessoId = "";
                     if (isset($arrQueryStringParams['id'])) {
                         $possessoId = $arrQueryStringParams['id'];
-                    }
-                    else
+                    } else
                         throw new Error("id non specificato ");
 
                     $responseData = $bookModel->getOwnedBook($possessoId);
@@ -282,29 +281,7 @@ class BookController extends BaseController
                 if (isset($uriSegments[5])) {
                     $subMethod = $uriSegments[5];
                     switch ($subMethod) {
-                        case 'delete':
-                            try {
-                                $bookModel = new BookModel();
-                                $userId = $_POST["userId"];
-                                $description = $_POST["description"];
-                                $bookId = $uriSegments[4];
 
-                                if (!isset($_SESSION["user"]))
-                                    throw new Error("user not logged in\n");
-                                if ($_SESSION["user"]["id"] != $userId)
-                                    throw new Error("user not authorized\n");
-                                if (!$bookModel->isBookOwner($userId, $bookId))
-                                    throw new Error("user is not book owner");
-
-
-                                $responseData["stato"] = $bookModel->removeBookOwnership($userId, $bookId, $description);
-
-
-                            } catch (Error $e) {
-                                $strErrorDesc = $e->getMessage() . 'Something went wrong!';
-                                $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
-                            }
-                            break;
                         default:
                             $strErrorDesc = 'Method not supported';
                             $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';

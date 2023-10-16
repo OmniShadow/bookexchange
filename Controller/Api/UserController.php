@@ -208,6 +208,32 @@ class UserController extends BaseController
             case 'POST':
                 try {
 
+                    $subMethod = $uriSegments[5];
+                    switch($subMethod){
+                        case 'deletebook':
+                            try {
+                                $bookModel = new BookModel();
+                                $userId = $_POST["userId"];
+                                $possessoId = $_POST["possessoId"];
+            
+                                if (!isset($_SESSION["user"]))
+                                    throw new Error("user not logged in ");
+                                if ($_SESSION["user"]["id"] != $userId)
+                                    throw new Error("user not authorized ");
+                                if (!$bookModel->isBookOwner($userId, $possessoId))
+                                    throw new Error("user is not book owner");
+            
+            
+                                $responseData["stato"] = $bookModel->removeBookOwnership($possessoId, $userId);
+            
+            
+                            } catch (Error $e) {
+                                $strErrorDesc = $e->getMessage() . 'Something went wrong!';
+                                $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
+                            }
+                            break;
+                    }
+
                 } catch (Error $e) {
                     $strErrorDesc = $e->getMessage() . 'Something went wrong!';
                     $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
@@ -410,7 +436,7 @@ class UserController extends BaseController
                 $deleteButton = file_get_contents("templates/deleteBookButtonTemplate.html");
                 $to_replace_button = array(
                     '{userId}' => $user["id"],
-                    '{descrizione}' => $userBook["descrizione"],
+                    '{possessoId}' => $userBook["id"],
                     '{id}' => $userBook["libro"],
                 );
                 $deleteButton = strtr($deleteButton, $to_replace_button);

@@ -2,12 +2,13 @@
 
     <button id="delete-button" class="btn btn-outline-danger " onclick="
     idUtente = {userId};
-    descrizione = '{descrizione}';
+    idPossesso = {possessoId};
+
     let formData = new FormData();
     formData.append('userId', idUtente);
-    formData.append('description', descrizione);
+    formData.append('possessoId', idPossesso);
     if(confirm('Vuoi eliminare questo libro?'))
-    fetch('/bookexchange/api.php/book/{id}/delete',{
+    fetch('/bookexchange/api.php/user/'+idUtente+'/deletebook',{
         method: 'POST',
         body:formData,
     }).then(response => response.json())

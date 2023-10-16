@@ -65,9 +65,9 @@ class BookModel extends Database
         return $this->select($query, $params);
     }
 
-    public function isBookOwner($userId, $bookId){
-        $query = "SELECT * FROM possesso WHERE libro = ? AND proprietario = ?";
-        $params = [$bookId, $userId];
+    public function isBookOwner($userId, $possessoId){
+        $query = "SELECT * FROM possesso WHERE id = ? AND proprietario = ?";
+        $params = [$possessoId, $userId];
         return $this->select($query, $params);
         
     }
@@ -135,10 +135,10 @@ class BookModel extends Database
 
     }
 
-    public function removeBookOwnership($userId, $bookId, $description)
+    public function removeBookOwnership($possessoId, $userId)
     {
-        $query = "DELETE FROM possesso WHERE proprietario = ? AND libro = ? AND descrizione = ?";
-        $params = [$userId, $bookId, $description];
+        $query = "DELETE FROM possesso WHERE id = ? AND proprietario = ?";
+        $params = [$possessoId, $userId];
         return $this->createUpdateDelete($query, $params);
     }
 }
