@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Ott 13, 2023 alle 15:01
+-- Creato il: Ott 16, 2023 alle 13:47
 -- Versione del server: 10.4.28-MariaDB
 -- Versione PHP: 8.2.4
 
@@ -28,10 +28,17 @@ USE `bookexchange`;
 --
 -- Struttura della tabella `autore`
 --
+-- Creazione: Ott 08, 2023 alle 21:22
+--
 
+DROP TABLE IF EXISTS `autore`;
 CREATE TABLE `autore` (
   `id` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- RELAZIONI PER TABELLA `autore`:
+--
 
 --
 -- Dump dei dati per la tabella `autore`
@@ -118,6 +125,7 @@ INSERT IGNORE INTO `autore` (`id`) VALUES
 ('Robert Spector'),
 ('Roger K. Leir'),
 ('Roland Barthes'),
+('Romano Fantacci'),
 ('S. Speroni Zagrljaca'),
 ('Sal Esmeralda'),
 ('Salvatore Conte'),
@@ -150,11 +158,20 @@ INSERT IGNORE INTO `autore` (`id`) VALUES
 --
 -- Struttura della tabella `categoria`
 --
+-- Creazione: Ott 13, 2023 alle 10:31
+--
 
+DROP TABLE IF EXISTS `categoria`;
 CREATE TABLE `categoria` (
   `categoria` varchar(50) NOT NULL,
   `libro` varchar(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- RELAZIONI PER TABELLA `categoria`:
+--   `libro`
+--       `libro` -> `id`
+--
 
 --
 -- Dump dei dati per la tabella `categoria`
@@ -192,6 +209,7 @@ INSERT IGNORE INTO `categoria` (`categoria`, `libro`) VALUES
 ('Fiction', 'S6TOxwEACAAJ'),
 ('Fiction', 'tEsoDQAAQBAJ'),
 ('Games', '4ErGAwAAQBAJ'),
+('Games', 'nOnvDwAAQBAJ'),
 ('Games & Activities', 'BoDXzwEACAAJ'),
 ('Games & Activities', 'i98sEAAAQBAJ'),
 ('Games & Activities', 'VhfYywEACAAJ'),
@@ -227,6 +245,7 @@ INSERT IGNORE INTO `categoria` (`categoria`, `libro`) VALUES
 ('Science', 'lEt_1qjW4vAC'),
 ('Science', 'NADCXwAACAAJ'),
 ('Science', 'NXMtCwAAQBAJ'),
+('Technology & Engineering', 'nOnvDwAAQBAJ'),
 ('Trees', 'Y3NlAgAACAAJ'),
 ('Universita', 'K9g_BAAAQBAJ');
 
@@ -235,12 +254,23 @@ INSERT IGNORE INTO `categoria` (`categoria`, `libro`) VALUES
 --
 -- Struttura della tabella `conversazione`
 --
+-- Creazione: Ott 08, 2023 alle 21:22
+--
 
+DROP TABLE IF EXISTS `conversazione`;
 CREATE TABLE `conversazione` (
   `id` int(11) NOT NULL,
   `utente1` int(11) DEFAULT NULL,
   `utente2` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- RELAZIONI PER TABELLA `conversazione`:
+--   `utente1`
+--       `utente` -> `id`
+--   `utente2`
+--       `utente` -> `id`
+--
 
 --
 -- Dump dei dati per la tabella `conversazione`
@@ -257,7 +287,10 @@ INSERT IGNORE INTO `conversazione` (`id`, `utente1`, `utente2`) VALUES
 --
 -- Struttura della tabella `libro`
 --
+-- Creazione: Ott 08, 2023 alle 21:22
+--
 
+DROP TABLE IF EXISTS `libro`;
 CREATE TABLE `libro` (
   `id` varchar(128) NOT NULL,
   `titolo` varchar(100) NOT NULL,
@@ -266,6 +299,10 @@ CREATE TABLE `libro` (
   `anno` smallint(6) DEFAULT NULL,
   `lingua` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- RELAZIONI PER TABELLA `libro`:
+--
 
 --
 -- Dump dei dati per la tabella `libro`
@@ -324,6 +361,7 @@ INSERT IGNORE INTO `libro` (`id`, `titolo`, `editore`, `copertina`, `anno`, `lin
 ('mSpXfV15GPgC', 'Concetti fondamentali di informatica', 'undefined', 'http://books.google.com/books/content?id=mSpXfV15GPgC&printsec=frontcover&img=1&zoom=1&source=gbs_api', 2007, 'it'),
 ('NADCXwAACAAJ', 'Chimica', 'undefined', 'http://books.google.com/books/content?id=NADCXwAACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api', 2011, 'it'),
 ('neGMDwAAQBAJ', 'Km 123', 'Edizioni Mondadori', 'http://books.google.com/books/content?id=neGMDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api', 2019, 'it'),
+('nOnvDwAAQBAJ', 'Sistemi a coda. Modelli Analisi e Applicazioni', 'Società Editrice Esculapio', 'http://books.google.com/books/content?id=nOnvDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api', 2020, 'it'),
 ('NXMtCwAAQBAJ', 'Quantum Physics', 'John Wiley & Sons', 'http://books.google.com/books/content?id=NXMtCwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api', 2003, 'en'),
 ('o0wAEAAAQBAJ', 'Horror italiano', 'Donzelli Editore', 'http://books.google.com/books/content?id=o0wAEAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api', 2005, 'it'),
 ('OdfjCgAAQBAJ', 'Meccanica Razionale', 'Springer', '', 2015, 'it'),
@@ -350,7 +388,10 @@ INSERT IGNORE INTO `libro` (`id`, `titolo`, `editore`, `copertina`, `anno`, `lin
 --
 -- Struttura della tabella `messaggio`
 --
+-- Creazione: Ott 08, 2023 alle 21:22
+--
 
+DROP TABLE IF EXISTS `messaggio`;
 CREATE TABLE `messaggio` (
   `id` int(11) NOT NULL,
   `conversazione` int(11) NOT NULL,
@@ -359,6 +400,16 @@ CREATE TABLE `messaggio` (
   `messaggio` varchar(512) NOT NULL,
   `data_creazione` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- RELAZIONI PER TABELLA `messaggio`:
+--   `conversazione`
+--       `conversazione` -> `id`
+--   `mittente`
+--       `utente` -> `id`
+--   `destinatario`
+--       `utente` -> `id`
+--
 
 --
 -- Dump dei dati per la tabella `messaggio`
@@ -428,7 +479,11 @@ INSERT IGNORE INTO `messaggio` (`id`, `conversazione`, `mittente`, `destinatario
 --
 -- Struttura della tabella `possesso`
 --
+-- Creazione: Ott 13, 2023 alle 10:48
+-- Ultimo aggiornamento: Ott 16, 2023 alle 11:45
+--
 
+DROP TABLE IF EXISTS `possesso`;
 CREATE TABLE `possesso` (
   `proprietario` int(11) NOT NULL,
   `libro` varchar(128) NOT NULL,
@@ -437,15 +492,21 @@ CREATE TABLE `possesso` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- RELAZIONI PER TABELLA `possesso`:
+--   `proprietario`
+--       `utente` -> `id`
+--   `libro`
+--       `libro` -> `id`
+--
+
+--
 -- Dump dei dati per la tabella `possesso`
 --
 
 INSERT IGNORE INTO `possesso` (`proprietario`, `libro`, `descrizione`, `id`) VALUES
 (33, 'gyqFPQAACAAJ', '', 1),
 (29, 'ebi3PAAACAAJ', 'il mio vecchio libro di analisi', 2),
-(23, '8VnJLu3AvvQC', '', 3),
 (29, 'uhrblChZ5_wC', '', 4),
-(23, '3Z87DwAAQBAJ', '', 5),
 (29, 'K9g_BAAAQBAJ', '', 6),
 (29, 'NXMtCwAAQBAJ', '', 7),
 (29, 'K-9ZrgEACAAJ', '', 8),
@@ -465,7 +526,6 @@ INSERT IGNORE INTO `possesso` (`proprietario`, `libro`, `descrizione`, `id`) VAL
 (29, 'aGPpKiMfcxsC', 'vecchio libro', 22),
 (23, 'o0wAEAAAQBAJ', '', 23),
 (29, 'W5Cy5ozqh34C', 'aaaaa simone', 24),
-(23, 'o0wAEAAAQBAJ', 'seconda copia', 25),
 (29, 'Vpl86eYrBVMC', 'aaa aggiunto', 26),
 (29, 'yCeGJKSIZkYC', 'il mio shakespeare', 27),
 (29, 'HVWGEAAAQBAJ', 'lol', 28),
@@ -476,18 +536,21 @@ INSERT IGNORE INTO `possesso` (`proprietario`, `libro`, `descrizione`, `id`) VAL
 (32, '4ErGAwAAQBAJ', '', 33),
 (23, 'wZW8zlgdSKQC', '', 34),
 (23, 'MheREAAAQBAJ', '', 35),
-(23, '3Z87DwAAQBAJ', 'pdes', 36),
 (30, 'KduhuwEACAAJ', '', 37),
 (30, 'H-v2DwAAQBAJ', '', 38),
 (30, '0vKiDwAAQBAJ', '', 39),
-(23, '3Z87DwAAQBAJ', '', 40);
+(23, 'nOnvDwAAQBAJ', '', 41);
 
 -- --------------------------------------------------------
 
 --
 -- Struttura della tabella `scambio`
 --
+-- Creazione: Ott 16, 2023 alle 11:41
+-- Ultimo aggiornamento: Ott 16, 2023 alle 11:45
+--
 
+DROP TABLE IF EXISTS `scambio`;
 CREATE TABLE `scambio` (
   `id` int(11) NOT NULL,
   `stato` varchar(10) DEFAULT 'pending',
@@ -495,6 +558,14 @@ CREATE TABLE `scambio` (
   `proposta` int(11) DEFAULT NULL,
   `offerta` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- RELAZIONI PER TABELLA `scambio`:
+--   `proposta`
+--       `possesso` -> `id`
+--   `offerta`
+--       `possesso` -> `id`
+--
 
 --
 -- Dump dei dati per la tabella `scambio`
@@ -506,8 +577,6 @@ INSERT IGNORE INTO `scambio` (`id`, `stato`, `data_creazione`, `proposta`, `offe
 (85, 'accepted', '2023-10-13 14:17:12', 35, 10),
 (91, 'accepted', '2023-10-13 14:50:38', 34, 29),
 (92, 'refused', '2023-10-13 14:52:53', 39, 34),
-(93, 'pending', '2023-10-13 14:53:48', 40, 39),
-(94, 'pending', '2023-10-13 14:55:26', 3, 2),
 (95, 'pending', '2023-10-13 14:58:38', 12, 30);
 
 -- --------------------------------------------------------
@@ -515,11 +584,22 @@ INSERT IGNORE INTO `scambio` (`id`, `stato`, `data_creazione`, `proposta`, `offe
 --
 -- Struttura della tabella `scrittura`
 --
+-- Creazione: Ott 08, 2023 alle 21:22
+--
 
+DROP TABLE IF EXISTS `scrittura`;
 CREATE TABLE `scrittura` (
   `autore` varchar(100) NOT NULL,
   `libro` varchar(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- RELAZIONI PER TABELLA `scrittura`:
+--   `autore`
+--       `autore` -> `id`
+--   `libro`
+--       `libro` -> `id`
+--
 
 --
 -- Dump dei dati per la tabella `scrittura`
@@ -607,8 +687,10 @@ INSERT IGNORE INTO `scrittura` (`autore`, `libro`) VALUES
 ('Robert Spector', '-3ccLlxnJTQC'),
 ('Roger K. Leir', 'wZW8zlgdSKQC'),
 ('Roland Barthes', '2HkTAAAACAAJ'),
+('Romano Fantacci', 'nOnvDwAAQBAJ'),
 ('S. Speroni Zagrljaca', 'ETSNu0mDMRcC'),
 ('Sal Esmeralda', '4ErGAwAAQBAJ'),
+('Sal Esmeralda', 'nOnvDwAAQBAJ'),
 ('Salvatore Conte', 'r2P8DwAAQBAJ'),
 ('Sandro Salsa', 'Bq4hQAAACAAJ'),
 ('Sandro Salsa', 'ebi3PAAACAAJ'),
@@ -643,7 +725,11 @@ INSERT IGNORE INTO `scrittura` (`autore`, `libro`) VALUES
 --
 -- Struttura della tabella `utente`
 --
+-- Creazione: Ott 08, 2023 alle 21:22
+-- Ultimo aggiornamento: Ott 16, 2023 alle 11:06
+--
 
+DROP TABLE IF EXISTS `utente`;
 CREATE TABLE `utente` (
   `id` int(11) NOT NULL,
   `username` varchar(20) NOT NULL,
@@ -652,6 +738,10 @@ CREATE TABLE `utente` (
   `stato` tinyint(1) DEFAULT 0,
   `avatar` varchar(256) DEFAULT '/bookexchange/imgs/useravatars/default-avatar.png'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- RELAZIONI PER TABELLA `utente`:
+--
 
 --
 -- Dump dei dati per la tabella `utente`
@@ -718,8 +808,8 @@ ALTER TABLE `possesso`
 --
 ALTER TABLE `scambio`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `proposta` (`proposta`),
-  ADD KEY `offerta` (`offerta`);
+  ADD KEY `scambio_ibfk_6` (`proposta`),
+  ADD KEY `scambio_ibfk_7` (`offerta`);
 
 --
 -- Indici per le tabelle `scrittura`
@@ -756,7 +846,7 @@ ALTER TABLE `messaggio`
 -- AUTO_INCREMENT per la tabella `possesso`
 --
 ALTER TABLE `possesso`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT per la tabella `scambio`
@@ -806,8 +896,8 @@ ALTER TABLE `possesso`
 -- Limiti per la tabella `scambio`
 --
 ALTER TABLE `scambio`
-  ADD CONSTRAINT `scambio_ibfk_6` FOREIGN KEY (`proposta`) REFERENCES `possesso` (`id`),
-  ADD CONSTRAINT `scambio_ibfk_7` FOREIGN KEY (`offerta`) REFERENCES `possesso` (`id`);
+  ADD CONSTRAINT `scambio_ibfk_6` FOREIGN KEY (`proposta`) REFERENCES `possesso` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `scambio_ibfk_7` FOREIGN KEY (`offerta`) REFERENCES `possesso` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Limiti per la tabella `scrittura`
