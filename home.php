@@ -197,7 +197,7 @@ session_start();
       <hr>
       <div class="row">
         <div class="col">
-          <button id="scambio" class="btn btn-primary">Scambia</button>
+          <button id="scambio" class="btn btn-secondary">Scambia</button>
         </div>
 
       </div>

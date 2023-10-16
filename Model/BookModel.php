@@ -79,7 +79,7 @@ class BookModel extends Database
         INNER JOIN utente ON possesso.proprietario = utente.id
         INNER JOIN scrittura ON scrittura.libro = libro.id
         INNER JOIN categoria ON categoria.libro = libro.id
-        WHERE (titolo LIKE ? OR scrittura.autore LIKE ? OR categoria.categoria LIKE ?) GROUP BY utente.id, libro.titolo, possesso.descrizione ORDER BY libro.titolo ASC LIMIT ? ";
+        WHERE (titolo LIKE ? OR scrittura.autore LIKE ? OR categoria.categoria LIKE ?) GROUP BY possesso.id ORDER BY libro.titolo ASC LIMIT ? ";
         $params = ["%$q%","%$q%","%$q%",$limit];
         return $this->select($query, $params);
     }
