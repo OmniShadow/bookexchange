@@ -45,19 +45,19 @@ session_start();
     </ul>
 
     <div class="col-md-3 text-end pe-5 pe-lg-5">
-      <a type="button" class="btn <?php
-      if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"])
-        echo ("btn-light");
-      else
-        echo ("btn-outline-light ");
-      ?> me-2" href=<?php
+    <a type="button" class="btn <?php
+          if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"])
+            echo ("btn-light");
+          else
+            echo ("btn-outline-light ");
+          ?> me-2" href=<?php
 
-       if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"]) {
-         $userId = $_SESSION["user"]["id"];
-         echo ("api.php/user/$userId/profile");
-       } else
-         echo ("/bookexchange/login.php");
-       ?>>
+           if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"]) {
+             $userId = $_SESSION["user"]["id"];
+             echo ("api.php/user/$userId/profile");
+           } else
+             echo ("/bookexchange/login.php");
+           ?>>
         <?php
         if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"])
           echo ('<i class="bi-person-circle"></i> Profile');
@@ -65,19 +65,19 @@ session_start();
           echo ("Login");
         ?>
 
-      </a>
-      <a type="button" class="btn <?php
-      if (isset($_SESSION["loggedin"])  && $_SESSION["loggedin"])
-        echo ("btn-outline-danger ");
-      else
-        echo ("btn-dark");
-      ?> " href=<?php
-       if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"]) {
-         echo ('"logout.php"');
-       } else {
-         echo ('"register.php"');
-       }
-       ?>>
+          </a>
+          <a type="button" class="btn <?php
+          if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"])
+            echo ("btn-outline-danger ");
+          else
+            echo ("btn-dark");
+          ?> " href=<?php
+           if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"]) {
+             echo ('"logout.php"');
+           } else {
+             echo ('"register.php"');
+           }
+           ?>>
         <?php
         if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"]) {
           echo ("Logout");
@@ -85,7 +85,7 @@ session_start();
           echo ("Sign Up");
         }
         ?>
-      </a>
+          </a>
     </div>
   </header>
 
@@ -97,11 +97,12 @@ session_start();
           <input id="book-search-bar" class="form-control mr-sm-2" type="search"
             placeholder="Ricerca per titolo, autore o categoria" aria-label="Search">
           <div class="input-group-append">
-            <button id="confirm-search-input" class="btn btn-outline-secondary " type="button"><i class="bi-search"></i> Search</button>
+            <button id="confirm-search-input" class="btn btn-outline-secondary " type="button"><i class="bi-search"></i>
+              Search</button>
           </div>
         </div>
-       
-          <ul id="book-search-results" class="list-group" style=""></ul>
+
+        <ul id="book-search-results" class="list-group" style=""></ul>
       </div>
     </div>
   </main>
@@ -111,6 +112,9 @@ session_start();
 
 
 </body>
+
+
+
 <li id="book-template" hidden class="media list-group-item list-group-item-action" style="">
   <div class="d-flex">
     <div>

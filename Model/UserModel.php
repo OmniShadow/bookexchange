@@ -38,7 +38,7 @@ class UserModel extends Database
         libro_proposto.titolo as libro_proposto_titolo,  libro_proposto.copertina as libro_proposto_copertina,
         possesso_proposta.id as proposta,
         offerente.id as offerente, offerente.username as offerente_username, offerente.avatar as offerente_avatar,
-        libro_offerto.id as libro_offerto_titolo, libro_offerto.copertina as libro_offerto_copertina,
+        libro_offerto.titolo as libro_offerto_titolo, libro_offerto.copertina as libro_offerto_copertina,
         possesso_offerta.id as offerta,
         scambio.stato as stato,
         scambio.id as id
